@@ -18,7 +18,8 @@
       "supportsTablet": false,
       "infoPlist": {
         "NSCameraUsageDescription": "האפליקציה צריכה גישה למצלמה להעלאת תמונות",
-        "NSPhotoLibraryUsageDescription": "האפליקציה צריכה גישה לגלריה להעלאת תמונות"
+        "NSPhotoLibraryUsageDescription": "האפליקציה צריכה גישה לגלריה להעלאת תמונות",
+        "ITSAppUsesNonExemptEncryption": false
       },
       "entitlements": {
         "aps-environment": "production"
@@ -61,8 +62,15 @@
           "icon": "./assets/images/icon.png",
           "color": "#10b981"
         }
-      ]
+      ],
+      "expo-updates"
     ],
+    "updates": {
+      "url": "https://u.expo.dev/21125a62-3081-4609-afc6-1bc354557b00"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
     "experiments": {
       "typedRoutes": true
     },

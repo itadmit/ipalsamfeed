@@ -18,9 +18,8 @@
   "submit": {
     "production": {
       "ios": {
-        "appleId": "",
-        "ascAppId": "",
-        "appleTeamId": ""
+        "appleId": "itadmit@gmail.com",
+        "appleTeamId": "489ALGCMH5"
       }
     }
   }
