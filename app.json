@@ -14,10 +14,14 @@
       "backgroundColor": "#059669"
     },
     "ios": {
+      "bundleIdentifier": "com.quickshopil.ipalsamfeed",
       "supportsTablet": false,
       "infoPlist": {
         "NSCameraUsageDescription": "האפליקציה צריכה גישה למצלמה להעלאת תמונות",
         "NSPhotoLibraryUsageDescription": "האפליקציה צריכה גישה לגלריה להעלאת תמונות"
+      },
+      "entitlements": {
+        "aps-environment": "production"
       }
     },
     "android": {
