@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { Image } from "expo-image";
 
 import { api, apiUpload } from "../../lib/api";
+import { hebrewTextInput } from "../../lib/hebrewInputStyle";
+import { RELATIONSHIP_STATUS_OPTIONS, relationshipStatusDisplay } from "../../lib/relationshipStatus";
+import { rowRtl } from "../../lib/rowRtl";
 import { useAuthStore } from "../../lib/auth";
 import { Avatar } from "../../components/ui/Avatar";
 
@@ -17,7 +19,6 @@ export default function SettingsScreen() {
   const user = useAuthStore((s) => s.user);
   const updateUser = useAuthStore((s) => s.updateUser);
   const logout = useAuthStore((s) => s.logout);
-  const router = useRouter();
   const queryClient = useQueryClient();
 
   const [bio, setBio] = useState(user?.bio || "");
@@ -40,7 +41,14 @@ export default function SettingsScreen() {
   const [hobbies, setHobbies] = useState(fullProfile?.hobbies ?? "");
   const [workplace, setWorkplace] = useState(fullProfile?.workplace ?? "");
   const [occupation, setOccupation] = useState(fullProfile?.occupation ?? "");
-  const [relationshipStatus, setRelationshipStatus] = useState(fullProfile?.relationshipStatus ?? "");
+  const [relationshipStatus, setRelationshipStatus] = useState(
+    () => relationshipStatusDisplay(fullProfile?.relationshipStatus) ?? "",
+  );
+
+  useEffect(() => {
+    if (fullProfile === undefined) return;
+    setRelationshipStatus(relationshipStatusDisplay(fullProfile.relationshipStatus));
+  }, [fullProfile?.relationshipStatus]);
 
   if (!user) return null;
   const fullName = `${user.firstName} ${user.lastName}`;
@@ -120,13 +128,27 @@ export default function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
       {/* Header */}
-      <View className="px-4 py-3 border-b border-slate-100">
-        <Text className="text-lg font-heebo-bold text-slate-900">הגדרות</Text>
+      <View className="px-4 py-3 border-b border-slate-100 w-full">
+        <Text
+          className="text-lg font-heebo-bold text-slate-900"
+          style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+        >
+          הגדרות
+        </Text>
       </View>
 
-      <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
+      <ScrollView
+        className="flex-1"
+        style={{ flex: 1, direction: "rtl" }}
+        contentContainerStyle={{
+          paddingBottom: 100,
+          width: "100%",
+          alignItems: "stretch",
+          direction: "rtl",
+        }}
+      >
         {/* Profile Photos */}
         <View className="items-center py-6 border-b border-slate-100">
           <TouchableOpacity onPress={() => pickAndUpload("avatar")} className="relative">
@@ -136,17 +158,24 @@ export default function SettingsScreen() {
                 <ActivityIndicator color="white" />
               </View>
             ) : (
-              <View className="absolute bottom-0 right-0 bg-emerald-500 rounded-full p-1.5" style={{ elevation: 2 }}>
+              <View className="absolute bottom-0 end-0 bg-emerald-500 rounded-full p-1.5" style={{ elevation: 2 }}>
                 <Ionicons name="camera" size={14} color="white" />
               </View>
             )}
           </TouchableOpacity>
-          <Text className="text-base font-heebo-bold text-slate-900 mt-2">{fullName}</Text>
-          <Text className="text-sm text-slate-400">{user.phone}</Text>
+          <Text
+            className="text-base font-heebo-bold text-slate-900 mt-2 text-center w-full"
+            style={{ writingDirection: "rtl" }}
+          >
+            {fullName}
+          </Text>
+          <Text className="text-sm text-slate-400 text-center w-full" style={{ writingDirection: "rtl" }}>
+            {user.phone}
+          </Text>
 
           <TouchableOpacity
             onPress={() => pickAndUpload("cover")}
-            className="mt-3 flex-row items-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg"
+            className={`mt-3 ${rowRtl()} items-center justify-center gap-1.5 px-3 py-1.5 bg-slate-100 rounded-lg`}
           >
             {uploadingCover ? (
               <ActivityIndicator size="small" color="#64748b" />
@@ -160,127 +189,215 @@ export default function SettingsScreen() {
         </View>
 
         {/* Bio & Info */}
-        <View className="px-4 py-4 gap-4">
-          <Text className="text-sm font-heebo-bold text-slate-700">פרטים אישיים</Text>
+        <View className="px-4 py-4 gap-4" style={{ width: "100%" }}>
+          <Text
+            className="text-sm font-heebo-bold text-slate-700"
+            style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+          >
+            פרטים אישיים
+          </Text>
 
-          <View>
-            <Text className="text-xs text-slate-500 mb-1">ביו</Text>
+          <View style={{ width: "100%" }}>
+            <Text
+              className="text-xs text-slate-500 mb-1"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            >
+              ביו
+            </Text>
             <TextInput
               value={bio}
               onChangeText={setBio}
               placeholder="ספר/י משהו על עצמך..."
               placeholderTextColor="#94a3b8"
               multiline
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 min-h-[80px]"
-              style={{ textAlign: "right", textAlignVertical: "top" }}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 min-h-[80px] w-full"
+              style={[hebrewTextInput, { textAlignVertical: "top", width: "100%" }]}
             />
           </View>
 
-          <View>
-            <Text className="text-xs text-slate-500 mb-1">מקצוע</Text>
+          <View style={{ width: "100%" }}>
+            <Text
+              className="text-xs text-slate-500 mb-1"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            >
+              מקצוע
+            </Text>
             <TextInput
               value={occupation}
               onChangeText={setOccupation}
               placeholder="מה אתה עושה?"
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
-              style={{ textAlign: "right" }}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 w-full"
+              style={[hebrewTextInput, { width: "100%" }]}
             />
           </View>
 
-          <View>
-            <Text className="text-xs text-slate-500 mb-1">מקום עבודה</Text>
+          <View style={{ width: "100%" }}>
+            <Text
+              className="text-xs text-slate-500 mb-1"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            >
+              מקום עבודה
+            </Text>
             <TextInput
               value={workplace}
               onChangeText={setWorkplace}
               placeholder="היכן אתה עובד?"
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
-              style={{ textAlign: "right" }}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 w-full"
+              style={[hebrewTextInput, { width: "100%" }]}
             />
           </View>
 
-          <View>
-            <Text className="text-xs text-slate-500 mb-1">תחביבים</Text>
+          <View style={{ width: "100%" }}>
+            <Text
+              className="text-xs text-slate-500 mb-1"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            >
+              תחביבים
+            </Text>
             <TextInput
               value={hobbies}
               onChangeText={setHobbies}
               placeholder="תחביבים..."
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
-              style={{ textAlign: "right" }}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 w-full"
+              style={[hebrewTextInput, { width: "100%" }]}
             />
           </View>
 
-          <View>
-            <Text className="text-xs text-slate-500 mb-1">סטטוס זוגי</Text>
-            <TextInput
-              value={relationshipStatus}
-              onChangeText={setRelationshipStatus}
-              placeholder="סטטוס..."
-              placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
-              style={{ textAlign: "right" }}
-            />
+          <View style={{ width: "100%" }}>
+            <Text
+              className="text-xs text-slate-500 mb-2"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            >
+              סטטוס זוגי
+            </Text>
+            <View className={`${rowRtl()} flex-wrap gap-2`} style={{ width: "100%" }}>
+              {RELATIONSHIP_STATUS_OPTIONS.map((opt) => {
+                const selected = relationshipStatus === opt;
+                return (
+                  <TouchableOpacity
+                    key={opt}
+                    onPress={() => setRelationshipStatus(selected ? "" : opt)}
+                    activeOpacity={0.85}
+                    className={`px-3.5 py-2.5 rounded-xl border ${
+                      selected ? "bg-emerald-50 border-emerald-400" : "bg-slate-50 border-slate-200"
+                    }`}
+                  >
+                    <Text
+                      className={`text-sm font-heebo-medium ${selected ? "text-emerald-800" : "text-slate-700"}`}
+                      style={{ writingDirection: "rtl", textAlign: "center" }}
+                    >
+                      {opt}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+            <TouchableOpacity
+              onPress={() => setRelationshipStatus("")}
+              className="mt-2 py-1 w-full"
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            >
+              <Text
+                className="text-xs text-slate-500 font-heebo-medium"
+                style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+              >
+                נקה בחירה (ללא סטטוס)
+              </Text>
+            </TouchableOpacity>
           </View>
 
           <TouchableOpacity
             onPress={handleSave}
             disabled={saving}
-            className={`rounded-xl py-3.5 items-center ${saving ? "bg-emerald-400" : "bg-emerald-500"}`}
+            className={`rounded-xl py-3.5 items-center w-full ${saving ? "bg-emerald-400" : "bg-emerald-500"}`}
           >
             {saving ? (
               <ActivityIndicator color="white" />
             ) : (
-              <Text className="text-white text-sm font-heebo-bold">שמור שינויים</Text>
+              <Text
+                className="text-white text-sm font-heebo-bold"
+                style={{ writingDirection: "rtl", textAlign: "center" }}
+              >
+                שמור שינויים
+              </Text>
             )}
           </TouchableOpacity>
         </View>
 
-        {/* Privacy */}
-        <View className="px-4 py-4 gap-3 border-t border-slate-100">
-          <Text className="text-sm font-heebo-bold text-slate-700">פרטיות</Text>
+        {/* Privacy — מפסק משמאל, טקסט מימין (לא תלוי ב-direction בלבד) */}
+        <View className="px-4 py-4 gap-3 border-t border-slate-100" style={{ width: "100%" }}>
+          <Text
+            className="text-sm font-heebo-bold text-slate-700"
+            style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+          >
+            פרטיות
+          </Text>
 
-          <View className="flex-row items-center justify-between py-2">
-            <Text className="text-sm text-slate-600">הסתר מספר טלפון</Text>
-            <Switch
-              value={hidePhone}
-              onValueChange={setHidePhone}
-              trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
-              thumbColor={hidePhone ? "#10b981" : "#f4f4f5"}
-            />
-          </View>
+          <View style={{ direction: "ltr", width: "100%" }}>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, width: "100%", paddingVertical: 8 }}>
+              <Switch
+                value={hidePhone}
+                onValueChange={setHidePhone}
+                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
+                thumbColor={hidePhone ? "#10b981" : "#f4f4f5"}
+              />
+              <Text
+                className="text-sm text-slate-600 flex-1"
+                style={{ writingDirection: "rtl", textAlign: "right" }}
+              >
+                הסתר מספר טלפון
+              </Text>
+            </View>
 
-          <View className="flex-row items-center justify-between py-2">
-            <Text className="text-sm text-slate-600">הסתר וואטסאפ</Text>
-            <Switch
-              value={hideWhatsapp}
-              onValueChange={setHideWhatsapp}
-              trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
-              thumbColor={hideWhatsapp ? "#10b981" : "#f4f4f5"}
-            />
-          </View>
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, width: "100%", paddingVertical: 8 }}>
+              <Switch
+                value={hideWhatsapp}
+                onValueChange={setHideWhatsapp}
+                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
+                thumbColor={hideWhatsapp ? "#10b981" : "#f4f4f5"}
+              />
+              <Text
+                className="text-sm text-slate-600 flex-1"
+                style={{ writingDirection: "rtl", textAlign: "right" }}
+              >
+                הסתר וואטסאפ
+              </Text>
+            </View>
 
-          <View className="flex-row items-center justify-between py-2">
-            <Text className="text-sm text-slate-600">הסתר מחיפוש</Text>
-            <Switch
-              value={hideFromSearch}
-              onValueChange={setHideFromSearch}
-              trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
-              thumbColor={hideFromSearch ? "#10b981" : "#f4f4f5"}
-            />
+            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, width: "100%", paddingVertical: 8 }}>
+              <Switch
+                value={hideFromSearch}
+                onValueChange={setHideFromSearch}
+                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
+                thumbColor={hideFromSearch ? "#10b981" : "#f4f4f5"}
+              />
+              <Text
+                className="text-sm text-slate-600 flex-1"
+                style={{ writingDirection: "rtl", textAlign: "right" }}
+              >
+                הסתר מחיפוש
+              </Text>
+            </View>
           </View>
         </View>
 
         {/* Logout */}
-        <View className="px-4 py-6">
+        <View className="px-4 py-6" style={{ width: "100%" }}>
           <TouchableOpacity
             onPress={handleLogout}
-            className="rounded-xl py-3.5 items-center bg-red-50 border border-red-200"
+            className="rounded-xl py-3.5 items-center bg-red-50 border border-red-200 w-full"
           >
-            <View className="flex-row items-center gap-2">
+            <View className={`${rowRtl()} items-center justify-center gap-2`}>
               <Ionicons name="log-out-outline" size={18} color="#ef4444" />
-              <Text className="text-red-600 text-sm font-heebo-bold">התנתק</Text>
+              <Text
+                className="text-red-600 text-sm font-heebo-bold"
+                style={{ writingDirection: "rtl", textAlign: "center" }}
+              >
+                התנתק
+              </Text>
             </View>
           </TouchableOpacity>
         </View>

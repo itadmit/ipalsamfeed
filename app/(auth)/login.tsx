@@ -5,8 +5,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { useAuthStore } from "../../lib/auth";
+import { useAuthStore, type User } from "../../lib/auth";
 import { registerForPushNotifications } from "../../lib/notifications";
+import { parseResponseJson } from "../../lib/api";
+import { hebrewTextInput } from "../../lib/hebrewInputStyle";
 
 const API_BASE = process.env.EXPO_PUBLIC_API_URL || "https://ipalsam.com";
 
@@ -34,7 +36,11 @@ export default function LoginScreen() {
         body: JSON.stringify({ phone: phone.trim(), password }),
       });
 
-      const data = await res.json();
+      const data = await parseResponseJson<{
+        error?: string;
+        token?: string;
+        user?: unknown;
+      }>(res);
 
       if (!res.ok || data.error) {
         setError(data.error || "שגיאת התחברות");
@@ -42,10 +48,26 @@ export default function LoginScreen() {
         return;
       }
 
-      await setAuth(data.token, data.user);
+      if (!data.token || !data.user) {
+        setError("תגובת שרת לא צפויה");
+        setLoading(false);
+        return;
+      }
+
+      await setAuth(data.token, data.user as User);
       registerForPushNotifications().catch(() => {});
-    } catch {
-      setError("שגיאת חיבור לשרת");
+    } catch (e) {
+      const msg =
+        e instanceof Error ? e.message : "שגיאת חיבור לשרת";
+      const network =
+        msg.includes("Network request failed") ||
+        msg.includes("Failed to fetch") ||
+        msg.includes("internet connection");
+      setError(
+        network
+          ? "אין חיבור לאינטרנט או שהשרת לא נגיש"
+          : msg
+      );
     }
 
     setLoading(false);
@@ -73,7 +95,7 @@ export default function LoginScreen() {
           {/* Form */}
           <View className="gap-4">
             <View>
-              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5 text-right">טלפון</Text>
+              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5 text-start">טלפון</Text>
               <TextInput
                 value={phone}
                 onChangeText={setPhone}
@@ -81,12 +103,12 @@ export default function LoginScreen() {
                 placeholderTextColor="#94a3b8"
                 keyboardType="phone-pad"
                 className="bg-slate-50 rounded-xl px-4 py-3.5 text-base text-slate-900 border border-slate-200"
-                style={{ textAlign: "right" }}
+                style={{ textAlign: "left", writingDirection: "ltr" }}
               />
             </View>
 
             <View>
-              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5 text-right">סיסמה</Text>
+              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5 text-start">סיסמה</Text>
               <View className="relative">
                 <TextInput
                   value={password}
@@ -94,14 +116,14 @@ export default function LoginScreen() {
                   placeholder="הקלד סיסמה"
                   placeholderTextColor="#94a3b8"
                   secureTextEntry={!showPassword}
-                  className="bg-slate-50 rounded-xl px-4 py-3.5 text-base text-slate-900 border border-slate-200 pr-12"
-                  style={{ textAlign: "right" }}
+                  className="bg-slate-50 rounded-xl px-4 py-3.5 text-base text-slate-900 border border-slate-200 pe-12"
+                  style={hebrewTextInput}
                   onSubmitEditing={handleLogin}
                   returnKeyType="go"
                 />
                 <TouchableOpacity
                   onPress={() => setShowPassword((v) => !v)}
-                  className="absolute left-3 top-0 bottom-0 justify-center"
+                  className="absolute end-3 top-0 bottom-0 justify-center"
                 >
                   <Ionicons name={showPassword ? "eye-off" : "eye"} size={20} color="#94a3b8" />
                 </TouchableOpacity>
@@ -110,7 +132,7 @@ export default function LoginScreen() {
 
             {error ? (
               <View className="bg-red-50 rounded-xl px-4 py-3">
-                <Text className="text-sm text-red-600 text-right">{error}</Text>
+                <Text className="text-sm text-red-600 text-start">{error}</Text>
               </View>
             ) : null}
 

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import * as SecureStore from "expo-secure-store";
 
-interface User {
+export interface User {
   id: string;
   phone: string;
   firstName: string;

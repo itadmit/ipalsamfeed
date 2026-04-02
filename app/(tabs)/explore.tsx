@@ -9,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Image } from "expo-image";
 
 import { api } from "../../lib/api";
+import { hebrewTextInput } from "../../lib/hebrewInputStyle";
 import { EmptyState } from "../../components/ui/EmptyState";
 import type { ExploreProfile } from "../../lib/types";
 
@@ -100,30 +101,27 @@ export default function ExploreScreen() {
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className="bg-white border-b border-slate-200 px-4 py-3">
-        <Text className="text-lg font-heebo-bold text-slate-900">גלה</Text>
+        <Text className="text-lg font-heebo-bold text-slate-900 text-start">גלה</Text>
       </View>
 
       {/* Search */}
       <View className="px-4 py-3 border-b border-slate-100">
         <View className="relative">
-          <Ionicons
-            name="search"
-            size={18}
-            color="#94a3b8"
-            style={{ position: "absolute", right: 12, top: 11, zIndex: 1 }}
-          />
+          <View className="pointer-events-none absolute top-[11px] start-3 z-[1]">
+            <Ionicons name="search" size={18} color="#94a3b8" />
+          </View>
           <TextInput
             value={query}
             onChangeText={setQuery}
             placeholder="חפש לפי שם, דרגה, פלוגה..."
             placeholderTextColor="#94a3b8"
-            className="bg-slate-100 rounded-lg h-10 pr-10 pl-10 text-sm text-slate-900"
-            style={{ textAlign: "right" }}
+            className="bg-slate-100 rounded-lg h-10 ps-10 pe-10 text-sm text-slate-900"
+            style={hebrewTextInput}
           />
           {query.length > 0 && (
             <TouchableOpacity
               onPress={() => setQuery("")}
-              style={{ position: "absolute", left: 12, top: 11, zIndex: 1 }}
+              className="absolute top-[11px] end-3 z-[1]"
             >
               <Ionicons name="close-circle" size={18} color="#94a3b8" />
             </TouchableOpacity>

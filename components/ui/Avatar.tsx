@@ -6,16 +6,18 @@ interface AvatarProps {
   src: string | null | undefined;
   name: string;
   size?: number;
+  /** בלי מעבר אופסיטי בטעינת תמונה (למשל בתגובות) */
+  noImageFade?: boolean;
 }
 
-export function Avatar({ src, name, size = 36 }: AvatarProps) {
+export function Avatar({ src, name, size = 36, noImageFade }: AvatarProps) {
   if (src) {
     return (
       <Image
         source={{ uri: src }}
         style={{ width: size, height: size, borderRadius: size / 2 }}
         contentFit="cover"
-        transition={200}
+        transition={noImageFade ? 0 : 200}
       />
     );
   }

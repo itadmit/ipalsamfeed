@@ -6,15 +6,16 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Ionicons } from "@expo/vector-icons";
-
 import { api } from "../../lib/api";
 import { useAuthStore } from "../../lib/auth";
 import { PostCard } from "../../components/posts/PostCard";
 import { CreatePostForm } from "../../components/posts/CreatePostForm";
 import { Avatar } from "../../components/ui/Avatar";
 import { EmptyState } from "../../components/ui/EmptyState";
-import type { PostData, SuggestedUser } from "../../lib/types";
+import { HeaderNotificationBell } from "../../components/ui/HeaderNotificationBell";
+import type { PostData, PostPublishEvent, SuggestedUser } from "../../lib/types";
+import { applyPublishEventToFeedPages } from "../../lib/postPublishCache";
+import { rtlMirrorHorizontalScroll, rowRtl } from "../../lib/rowRtl";
 
 type FeedMode = "all" | "friends";
 
@@ -26,7 +27,10 @@ function SuggestedSlider({ users: initialUsers }: { users: SuggestedUser[] }) {
 
   if (visible.length === 0) return null;
 
+  const mirrorHScroll = rtlMirrorHorizontalScroll();
+
   async function handleFollow(userId: string) {
+    if (loadingId === userId) return;
     setLoadingId(userId);
     try {
       const res = await api<{ followed: boolean }>("/follows/toggle", {
@@ -37,24 +41,40 @@ function SuggestedSlider({ users: initialUsers }: { users: SuggestedUser[] }) {
         setFollowedIds((prev) => new Set(prev).add(userId));
       }
     } catch {}
-    setLoadingId(null);
+    finally {
+      setLoadingId(null);
+    }
   }
 
   return (
     <View className="bg-white rounded-xl border border-slate-200 overflow-hidden" style={{ elevation: 1 }}>
-      <View className="flex-row items-center justify-between px-4 pt-3 pb-1">
-        <Text className="text-sm font-heebo-bold text-slate-700">חברים מוצעים</Text>
+      <View className={`${rowRtl()} items-center justify-between px-4 pt-3 pb-1`}>
+        <Text className="text-sm font-heebo-bold text-slate-700 text-start">חברים מוצעים</Text>
         <TouchableOpacity onPress={() => router.push("/(tabs)/explore")}>
           <Text className="text-xs text-emerald-500 font-heebo-medium">הצג הכל</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 12, paddingVertical: 12, gap: 12 }}>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={mirrorHScroll ? { transform: [{ scaleX: -1 }] } : undefined}
+        contentContainerStyle={{
+          flexDirection: "row",
+          paddingHorizontal: 12,
+          paddingVertical: 12,
+          gap: 12,
+        }}
+      >
         {visible.map((u) => {
           const phone = (u.phone || "").replace(/\D/g, "").slice(-10);
           const isFollowed = followedIds.has(u.id);
           const isLoading = loadingId === u.id;
           return (
-            <View key={u.id} className="w-[120px] border border-slate-100 rounded-xl p-3 items-center">
+            <View
+              key={u.id}
+              style={mirrorHScroll ? { transform: [{ scaleX: -1 }] } : undefined}
+              className="w-[120px] border border-slate-100 rounded-xl p-3 items-center"
+            >
               <TouchableOpacity onPress={() => router.push(`/profile/${phone}`)} className="items-center gap-1.5">
                 <Avatar src={u.avatarUrl} name={`${u.firstName} ${u.lastName}`} size={56} />
                 <Text className="text-xs font-heebo-bold text-slate-800 text-center" numberOfLines={1}>
@@ -62,9 +82,9 @@ function SuggestedSlider({ users: initialUsers }: { users: SuggestedUser[] }) {
                 </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                onPress={() => !isFollowed && handleFollow(u.id)}
+                onPress={() => !isFollowed && !isLoading && handleFollow(u.id)}
                 disabled={isLoading || isFollowed}
-                className={`w-full py-1.5 rounded-lg items-center mt-2 ${isFollowed ? "bg-slate-100" : "bg-emerald-500"}`}
+                className={`w-full py-2 min-h-[36px] rounded-lg items-center justify-center mt-2 ${isFollowed ? "bg-slate-100" : "bg-emerald-500"}`}
               >
                 {isLoading ? (
                   <ActivityIndicator size="small" color={isFollowed ? "#64748b" : "white"} />
@@ -108,14 +128,17 @@ export default function FeedScreen() {
 
   const allPosts = data?.pages.flatMap((p) => p.posts) ?? [];
 
-  const handlePostCreated = useCallback((post: PostData) => {
-    queryClient.setQueryData(["feed", mode], (old: typeof data) => {
-      if (!old) return old;
-      const newPages = [...old.pages];
-      newPages[0] = { ...newPages[0], posts: [post, ...newPages[0].posts] };
-      return { ...old, pages: newPages };
-    });
-  }, [queryClient, mode, data]);
+  const handlePublish = useCallback(
+    (e: PostPublishEvent) => {
+      queryClient.setQueryData(["feed", mode], (old: typeof data) =>
+        applyPublishEventToFeedPages(old, e)
+      );
+      if (e.type === "done") {
+        queryClient.invalidateQueries({ queryKey: ["profile"] });
+      }
+    },
+    [queryClient, mode, data]
+  );
 
   const handlePostDeleted = useCallback((id: string) => {
     queryClient.setQueryData(["feed", mode], (old: typeof data) => {
@@ -137,7 +160,7 @@ export default function FeedScreen() {
 
   const renderHeader = () => (
     <View className="gap-4 mb-4">
-      <CreatePostForm onCreated={handlePostCreated} />
+      <CreatePostForm onPublish={handlePublish} />
       {suggestedData?.users && suggestedData.users.length > 0 && (
         <SuggestedSlider users={suggestedData.users} />
       )}
@@ -147,15 +170,13 @@ export default function FeedScreen() {
   return (
     <SafeAreaView className="flex-1 bg-slate-50" edges={["top"]}>
       {/* Header */}
-      <View className="bg-white border-b border-slate-200 px-4 py-3 flex-row items-center justify-between">
-        <Text className="text-lg font-heebo-bold text-slate-900">iPalsam</Text>
-        <View className="flex-row items-center gap-2">
-          <Ionicons name="newspaper" size={20} color="#10b981" />
-        </View>
+      <View className={`bg-white border-b border-slate-200 px-4 py-3 ${rowRtl()} items-center justify-between`}>
+        <Text className="text-lg font-heebo-bold text-slate-900 text-start">iPalsam</Text>
+        <HeaderNotificationBell />
       </View>
 
       {/* Mode tabs */}
-      <View className="bg-white border-b border-slate-200 flex-row">
+      <View className={`bg-white border-b border-slate-200 ${rowRtl()}`}>
         <TouchableOpacity
           onPress={() => handleModeSwitch("all")}
           className={`flex-1 py-2.5 items-center relative`}
@@ -163,7 +184,7 @@ export default function FeedScreen() {
           <Text className={`text-sm font-heebo-bold ${mode === "all" ? "text-emerald-600" : "text-slate-400"}`}>
             כל הפוסטים
           </Text>
-          {mode === "all" && <View className="absolute bottom-0 left-4 right-4 h-0.5 bg-emerald-500 rounded-full" />}
+          {mode === "all" && <View className="absolute bottom-0 start-4 end-4 h-0.5 bg-emerald-500 rounded-full" />}
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => handleModeSwitch("friends")}
@@ -172,7 +193,7 @@ export default function FeedScreen() {
           <Text className={`text-sm font-heebo-bold ${mode === "friends" ? "text-emerald-600" : "text-slate-400"}`}>
             חברים בלבד
           </Text>
-          {mode === "friends" && <View className="absolute bottom-0 left-4 right-4 h-0.5 bg-emerald-500 rounded-full" />}
+          {mode === "friends" && <View className="absolute bottom-0 start-4 end-4 h-0.5 bg-emerald-500 rounded-full" />}
         </TouchableOpacity>
       </View>
 

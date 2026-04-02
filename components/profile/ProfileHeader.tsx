@@ -1,9 +1,12 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { Image } from "expo-image";
+import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { Avatar } from "../ui/Avatar";
 import { VerifiedBadge } from "../ui/VerifiedBadge";
 import type { ProfileData } from "../../lib/types";
+import { rowRtl } from "../../lib/rowRtl";
+import { relationshipStatusDisplay } from "../../lib/relationshipStatus";
 
 interface ProfileHeaderProps {
   profile: ProfileData;
@@ -16,6 +19,44 @@ interface ProfileHeaderProps {
   onEditProfile?: () => void;
 }
 
+function StatBlock({
+  icon,
+  value,
+  label,
+  showDivider,
+}: {
+  icon: keyof typeof Ionicons.glyphMap;
+  value: number | string;
+  label: string;
+  showDivider: boolean;
+}) {
+  return (
+    <View
+      className={`flex-1 min-w-0 ${showDivider ? "border-s border-slate-200/90" : ""}`}
+      style={{ paddingVertical: 14 }}
+    >
+      <View className={`${rowRtl()} items-center justify-center gap-2 px-1`}>
+        <Ionicons name={icon} size={22} color="#64748b" />
+        <View className="items-center min-w-0">
+          <Text
+            className="text-base font-heebo-bold text-slate-900"
+            numberOfLines={1}
+            style={{ writingDirection: "rtl" }}
+          >
+            {value}
+          </Text>
+          <Text
+            className="text-[11px] text-slate-500 font-heebo-medium mt-0.5"
+            style={{ writingDirection: "rtl" }}
+          >
+            {label}
+          </Text>
+        </View>
+      </View>
+    </View>
+  );
+}
+
 export function ProfileHeader({
   profile, followersCount, followingCount,
   isFollowing, isOwner, onFollow, followLoading, onEditProfile,
@@ -23,100 +64,225 @@ export function ProfileHeader({
   const fullName = `${profile.firstName} ${profile.lastName}`;
 
   return (
-    <View>
-      {/* Cover */}
-      <View className="h-36 bg-slate-200">
+    <View className="bg-white">
+      {/* Cover — גובה דומה ללינקדאין / פייסבוק */}
+      <View className="w-full overflow-hidden bg-slate-200" style={{ height: 220 }}>
         {profile.coverUrl ? (
-          <Image source={{ uri: profile.coverUrl }} style={{ width: "100%", height: "100%" }} contentFit="cover" />
+          <Image
+            source={{ uri: profile.coverUrl }}
+            style={{ width: "100%", height: "100%" }}
+            contentFit="cover"
+            transition={200}
+          />
         ) : (
-          <View className="w-full h-full bg-gradient-to-br from-emerald-400 to-teal-600" />
+          <LinearGradient
+            colors={["#10b981", "#0d9488", "#0e7490"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={{ width: "100%", height: "100%" }}
+          />
         )}
+        <LinearGradient
+          colors={["transparent", "rgba(0,0,0,0.22)"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 72,
+          }}
+          pointerEvents="none"
+        />
       </View>
 
-      <View className="px-4 -mt-12">
-        {/* Avatar */}
-        <View className="flex-row items-end justify-between">
-          <View className="rounded-full border-4 border-white overflow-hidden">
-            <Avatar src={profile.avatarUrl} name={fullName} size={80} />
+      <View className="px-4 -mt-[52px] pb-1">
+        {/* Avatar + פעולות */}
+        <View className={`${rowRtl()} items-end justify-between`}>
+          <View
+            className="rounded-full border-[3px] border-white overflow-hidden bg-white"
+            style={{
+              shadowColor: "#000",
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.12,
+              shadowRadius: 8,
+              elevation: 6,
+            }}
+          >
+            <Avatar src={profile.avatarUrl} name={fullName} size={92} />
           </View>
           {isOwner ? (
             <TouchableOpacity
               onPress={onEditProfile}
-              className="bg-white border border-slate-200 rounded-lg px-4 py-2 flex-row items-center gap-1.5 mb-1"
+              activeOpacity={0.85}
+              className={`bg-white border border-slate-200 rounded-xl px-4 py-2.5 ${rowRtl()} items-center gap-2 mb-0.5`}
+              style={{
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.06,
+                shadowRadius: 3,
+                elevation: 2,
+              }}
             >
-              <Ionicons name="pencil" size={14} color="#64748b" />
-              <Text className="text-sm font-heebo-medium text-slate-700">ערוך פרופיל</Text>
+              <Ionicons name="create-outline" size={18} color="#475569" />
+              <Text className="text-sm font-heebo-bold text-slate-700">ערוך פרופיל</Text>
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={onFollow}
               disabled={followLoading}
-              className={`rounded-lg px-5 py-2 mb-1 ${isFollowing ? "bg-slate-100" : "bg-emerald-500"}`}
+              activeOpacity={0.85}
+              className={`rounded-xl px-5 py-2.5 mb-0.5 min-h-[44px] min-w-[132px] ${rowRtl()} items-center justify-center gap-2 ${isFollowing ? "bg-slate-100 border border-slate-200" : "bg-emerald-500"}`}
+              style={
+                !isFollowing
+                  ? {
+                      shadowColor: "#059669",
+                      shadowOffset: { width: 0, height: 2 },
+                      shadowOpacity: 0.25,
+                      shadowRadius: 4,
+                      elevation: 3,
+                    }
+                  : undefined
+              }
             >
-              <Text className={`text-sm font-heebo-bold ${isFollowing ? "text-slate-600" : "text-white"}`}>
-                {isFollowing ? "עוקב ✓" : "עקוב"}
-              </Text>
+              {followLoading ? (
+                <>
+                  <ActivityIndicator size="small" color={isFollowing ? "#475569" : "#ffffff"} />
+                  <Text className={`text-sm font-heebo-bold ${isFollowing ? "text-slate-600" : "text-white"}`}>
+                    רגע...
+                  </Text>
+                </>
+              ) : (
+                <>
+                  {isFollowing ? (
+                    <Ionicons name="person-remove-outline" size={20} color="#475569" />
+                  ) : (
+                    <Ionicons name="person-add-outline" size={20} color="#ffffff" />
+                  )}
+                  <Text className={`text-sm font-heebo-bold ${isFollowing ? "text-slate-700" : "text-white"}`}>
+                    {isFollowing ? "הפסק לעקוב" : "עקוב"}
+                  </Text>
+                </>
+              )}
             </TouchableOpacity>
           )}
         </View>
 
-        {/* Name & info */}
-        <View className="mt-3">
-          <View className="flex-row items-center gap-1">
-            <Text className="text-lg font-heebo-bold text-slate-900">{fullName}</Text>
-            {profile.isVerified && <VerifiedBadge size={18} />}
+        {/* שם + אימות */}
+        <View className="mt-4">
+          <View className={`${rowRtl()} items-center gap-2 flex-wrap`}>
+            <Text
+              className="text-xl font-heebo-bold text-slate-900"
+              style={{ writingDirection: "rtl", textAlign: "right" }}
+            >
+              {fullName}
+            </Text>
+            {profile.isVerified && <VerifiedBadge size={20} />}
           </View>
-          {profile.rank && (
-            <Text className="text-sm text-slate-500">{profile.rank}</Text>
-          )}
-          {profile.bio && (
-            <Text className="text-sm text-slate-700 mt-1 leading-5">{profile.bio}</Text>
-          )}
+          {profile.rank ? (
+            <Text
+              className="text-sm text-slate-500 mt-1 leading-5"
+              style={{ writingDirection: "rtl", textAlign: "right" }}
+            >
+              {profile.rank}
+            </Text>
+          ) : null}
+          {profile.bio ? (
+            <Text
+              className="text-[15px] text-slate-700 mt-2.5 leading-6"
+              style={{ writingDirection: "rtl", textAlign: "right" }}
+            >
+              {profile.bio}
+            </Text>
+          ) : null}
         </View>
 
-        {/* Stats */}
-        <View className="flex-row gap-6 mt-4 pb-4 border-b border-slate-100">
-          <View className="items-center">
-            <Text className="text-base font-heebo-bold text-slate-900">{followersCount}</Text>
-            <Text className="text-xs text-slate-400">עוקבים</Text>
+        {/* סטטיסטיקות — רוחב מלא, אייקונים, קווי הפרדה */}
+        <View
+          className="mt-5 -mx-4 px-4"
+          style={{
+            borderTopWidth: 1,
+            borderBottomWidth: 1,
+            borderColor: "rgba(226, 232, 240, 0.95)",
+            backgroundColor: "rgba(248, 250, 252, 0.65)",
+          }}
+        >
+          <View className={`${rowRtl()} w-full items-stretch`}>
+            <StatBlock
+              icon="people-outline"
+              value={followersCount}
+              label="עוקבים"
+              showDivider
+            />
+            <StatBlock
+              icon="person-outline"
+              value={followingCount}
+              label="עוקב"
+              showDivider={profile.profileViews > 0}
+            />
+            {profile.profileViews > 0 ? (
+              <StatBlock
+                icon="eye-outline"
+                value={profile.profileViews}
+                label="צפיות"
+                showDivider={false}
+              />
+            ) : null}
           </View>
-          <View className="items-center">
-            <Text className="text-base font-heebo-bold text-slate-900">{followingCount}</Text>
-            <Text className="text-xs text-slate-400">עוקב</Text>
-          </View>
-          {profile.profileViews > 0 && (
-            <View className="items-center">
-              <Text className="text-base font-heebo-bold text-slate-900">{profile.profileViews}</Text>
-              <Text className="text-xs text-slate-400">צפיות</Text>
-            </View>
-          )}
         </View>
 
-        {/* Details */}
+        {/* פרטים מקצועיים */}
         {(profile.occupation || profile.workplace || profile.hobbies || profile.relationshipStatus) && (
-          <View className="py-3 gap-2 border-b border-slate-100">
+          <View className="pt-4 pb-1 gap-3 border-b border-slate-100">
             {profile.occupation && (
-              <View className="flex-row items-center gap-2">
-                <Ionicons name="briefcase-outline" size={14} color="#94a3b8" />
-                <Text className="text-sm text-slate-600">{profile.occupation}</Text>
+              <View className={`${rowRtl()} items-start gap-3`}>
+                <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
+                  <Ionicons name="briefcase-outline" size={18} color="#64748b" />
+                </View>
+                <Text
+                  className="text-sm text-slate-700 flex-1 pt-1.5 leading-5"
+                  style={{ writingDirection: "rtl", textAlign: "right" }}
+                >
+                  {profile.occupation}
+                </Text>
               </View>
             )}
             {profile.workplace && (
-              <View className="flex-row items-center gap-2">
-                <Ionicons name="business-outline" size={14} color="#94a3b8" />
-                <Text className="text-sm text-slate-600">{profile.workplace}</Text>
+              <View className={`${rowRtl()} items-start gap-3`}>
+                <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
+                  <Ionicons name="business-outline" size={18} color="#64748b" />
+                </View>
+                <Text
+                  className="text-sm text-slate-700 flex-1 pt-1.5 leading-5"
+                  style={{ writingDirection: "rtl", textAlign: "right" }}
+                >
+                  {profile.workplace}
+                </Text>
               </View>
             )}
             {profile.hobbies && (
-              <View className="flex-row items-center gap-2">
-                <Ionicons name="heart-outline" size={14} color="#94a3b8" />
-                <Text className="text-sm text-slate-600">{profile.hobbies}</Text>
+              <View className={`${rowRtl()} items-start gap-3`}>
+                <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
+                  <Ionicons name="heart-outline" size={18} color="#64748b" />
+                </View>
+                <Text
+                  className="text-sm text-slate-700 flex-1 pt-1.5 leading-5"
+                  style={{ writingDirection: "rtl", textAlign: "right" }}
+                >
+                  {profile.hobbies}
+                </Text>
               </View>
             )}
             {profile.relationshipStatus && (
-              <View className="flex-row items-center gap-2">
-                <Ionicons name="people-outline" size={14} color="#94a3b8" />
-                <Text className="text-sm text-slate-600">{profile.relationshipStatus}</Text>
+              <View className={`${rowRtl()} items-start gap-3`}>
+                <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
+                  <Ionicons name="people-outline" size={18} color="#64748b" />
+                </View>
+                <Text
+                  className="text-sm text-slate-700 flex-1 pt-1.5 leading-5"
+                  style={{ writingDirection: "rtl", textAlign: "right" }}
+                >
+                  {relationshipStatusDisplay(profile.relationshipStatus)}
+                </Text>
               </View>
             )}
           </View>

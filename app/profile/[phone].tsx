@@ -26,7 +26,7 @@ export default function PublicProfileScreen() {
   });
 
   const handleFollow = useCallback(async () => {
-    if (!data) return;
+    if (!data || followLoading) return;
     setFollowLoading(true);
     try {
       const res = await api<{ followed: boolean }>("/follows/toggle", {
@@ -42,8 +42,10 @@ export default function PublicProfileScreen() {
         };
       });
     } catch {}
-    setFollowLoading(false);
-  }, [data, phone, queryClient]);
+    finally {
+      setFollowLoading(false);
+    }
+  }, [data, phone, queryClient, followLoading]);
 
   const handlePostDeleted = useCallback((id: string) => {
     queryClient.setQueryData(["profile", phone], (old: ProfileResponse | undefined) => {
@@ -62,8 +64,8 @@ export default function PublicProfileScreen() {
 
   return (
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
-      {/* Back button */}
-      <View className="absolute top-12 left-4 z-10">
+      {/* Back — ימין המסך, מעט מתחת ל-safe area */}
+      <View className="absolute top-16 right-4 z-10">
         <TouchableOpacity
           onPress={() => router.back()}
           className="bg-white/80 rounded-full p-2"
@@ -76,8 +78,8 @@ export default function PublicProfileScreen() {
       <FlatList
         data={data.posts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="px-4 mb-4">
+        renderItem={({ item, index }) => (
+          <View className={`px-4 mb-4 ${index === 0 ? "mt-5" : ""}`}>
             <PostCard
               post={item}
               isOwner={item.authorId === user?.id}

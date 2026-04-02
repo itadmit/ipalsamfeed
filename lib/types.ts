@@ -27,7 +27,18 @@ export interface PostData {
   isLiked: boolean;
   commentsCount: number;
   recentComments?: PostComment[];
+  /** פוסט אופטימיסטי בזמן העלאה (לקוח בלבד) */
+  isUploading?: boolean;
+  /** 0–100 בזמן העלאת קובץ; null = שלב שליחה לשרת */
+  uploadProgress?: number | null;
 }
+
+/** אירועי פרסום פוסט — עדכון פיד / פרופיל */
+export type PostPublishEvent =
+  | { type: "optimistic"; post: PostData }
+  | { type: "progress"; tempId: string; percent: number | null }
+  | { type: "done"; tempId: string; post: PostData }
+  | { type: "error"; tempId: string };
 
 export interface SuggestedUser {
   id: string;

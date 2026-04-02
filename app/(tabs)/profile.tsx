@@ -10,7 +10,8 @@ import { ProfileHeader } from "../../components/profile/ProfileHeader";
 import { PostCard } from "../../components/posts/PostCard";
 import { CreatePostForm } from "../../components/posts/CreatePostForm";
 import { EmptyState } from "../../components/ui/EmptyState";
-import type { ProfileResponse, PostData } from "../../lib/types";
+import type { ProfileResponse, PostPublishEvent } from "../../lib/types";
+import { applyPublishEventToProfilePosts } from "../../lib/postPublishCache";
 
 export default function MyProfileScreen() {
   const user = useAuthStore((s) => s.user);
@@ -24,12 +25,18 @@ export default function MyProfileScreen() {
     enabled: !!phone,
   });
 
-  const handlePostCreated = useCallback((post: PostData) => {
-    queryClient.setQueryData(["profile", phone], (old: ProfileResponse | undefined) => {
-      if (!old) return old;
-      return { ...old, posts: [post, ...old.posts] };
-    });
-  }, [queryClient, phone]);
+  const handlePublish = useCallback(
+    (e: PostPublishEvent) => {
+      queryClient.setQueryData(["profile", phone], (old: ProfileResponse | undefined) => {
+        if (!old) return old;
+        return { ...old, posts: applyPublishEventToProfilePosts(old.posts, e) };
+      });
+      if (e.type === "done") {
+        queryClient.invalidateQueries({ queryKey: ["feed"] });
+      }
+    },
+    [queryClient, phone]
+  );
 
   const handlePostDeleted = useCallback((id: string) => {
     queryClient.setQueryData(["profile", phone], (old: ProfileResponse | undefined) => {
@@ -51,8 +58,8 @@ export default function MyProfileScreen() {
       <FlatList
         data={data.posts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View className="px-4 mb-4">
+        renderItem={({ item, index }) => (
+          <View className={`px-4 mb-4 ${index === 0 ? "mt-5" : ""}`}>
             <PostCard
               post={item}
               isOwner={item.authorId === user?.id}
@@ -72,7 +79,7 @@ export default function MyProfileScreen() {
               onEditProfile={() => router.push("/(tabs)/settings")}
             />
             <View className="px-4 pt-4">
-              <CreatePostForm onCreated={handlePostCreated} />
+              <CreatePostForm onPublish={handlePublish} />
             </View>
           </View>
         }

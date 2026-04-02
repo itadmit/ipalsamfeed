@@ -12,6 +12,7 @@ import * as Notifications from "expo-notifications";
 import { api } from "../../lib/api";
 import { timeAgo } from "../../lib/timeAgo";
 import { EmptyState } from "../../components/ui/EmptyState";
+import { rowRtl } from "../../lib/rowRtl";
 import type { ProfileNotification } from "../../lib/types";
 
 function NotificationIcon({ type }: { type: string }) {
@@ -42,7 +43,7 @@ function NotificationItem({
   return (
     <TouchableOpacity
       onPress={onPress}
-      className={`flex-row items-start gap-3 px-4 py-3.5 ${isRead ? "bg-white" : "bg-emerald-50/40"}`}
+      className={`${rowRtl()} items-start gap-3 px-4 py-3.5 ${isRead ? "bg-white" : "bg-emerald-50/40"}`}
       activeOpacity={0.7}
     >
       {/* Avatar */}
@@ -54,28 +55,28 @@ function NotificationItem({
             <Ionicons name="notifications" size={20} color="white" />
           </View>
         )}
-        <View className="absolute -bottom-0.5 -left-0.5 w-5 h-5 rounded-full bg-white items-center justify-center" style={{ elevation: 1 }}>
+        <View className="absolute -bottom-0.5 -start-0.5 w-5 h-5 rounded-full bg-white items-center justify-center" style={{ elevation: 1 }}>
           <NotificationIcon type={notification.type} />
         </View>
       </View>
 
       {/* Content */}
       <View className="flex-1">
-        <View className="flex-row items-start justify-between gap-2">
+        <View className={`${rowRtl()} items-start justify-between gap-2`}>
           <Text
-            className={`text-sm leading-5 flex-1 ${isRead ? "text-slate-700" : "text-slate-900 font-heebo-bold"}`}
-            style={{ textAlign: "right" }}
+            className={`text-sm leading-5 flex-1 text-start ${isRead ? "text-slate-700" : "text-slate-900 font-heebo-bold"}`}
+            style={{ writingDirection: "rtl" }}
           >
             {notification.title}
           </Text>
           {!isRead && <View className="mt-1.5 w-2 h-2 rounded-full bg-emerald-500" />}
         </View>
         {notification.body && (
-          <Text className="text-xs text-slate-500 mt-0.5" numberOfLines={2} style={{ textAlign: "right" }}>
+          <Text className="text-xs text-slate-500 mt-0.5 text-start" numberOfLines={2} style={{ writingDirection: "rtl" }}>
             {notification.body}
           </Text>
         )}
-        <Text className="text-[11px] text-slate-400 mt-1" style={{ textAlign: "right" }}>
+        <Text className="text-[11px] text-slate-400 mt-1 text-start" style={{ writingDirection: "rtl" }}>
           {timeAgo(notification.createdAt)}
         </Text>
       </View>
@@ -86,6 +87,7 @@ function NotificationItem({
 export default function NotificationsScreen() {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [markAllLoading, setMarkAllLoading] = useState(false);
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ["notifications"],
@@ -109,6 +111,8 @@ export default function NotificationsScreen() {
   }
 
   async function handleMarkAllRead() {
+    if (markAllLoading) return;
+    setMarkAllLoading(true);
     queryClient.setQueryData(["notifications"], (old: typeof data) => {
       if (!old) return old;
       return {
@@ -119,7 +123,10 @@ export default function NotificationsScreen() {
       };
     });
     queryClient.invalidateQueries({ queryKey: ["unread-count"] });
-    await api("/notifications/read-all", { method: "POST" });
+    try {
+      await api("/notifications/read-all", { method: "POST" });
+    } catch {}
+    setMarkAllLoading(false);
   }
 
   function handleNotificationPress(n: ProfileNotification) {
@@ -147,9 +154,9 @@ export default function NotificationsScreen() {
   return (
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
-      <View className="px-4 py-3 flex-row items-center justify-between border-b border-slate-100">
-        <View className="flex-row items-center gap-2">
-          <Text className="text-lg font-heebo-bold text-slate-900">התראות</Text>
+      <View className={`px-4 py-3 ${rowRtl()} items-center justify-between border-b border-slate-100`}>
+        <View className={`${rowRtl()} items-center gap-2`}>
+          <Text className="text-lg font-heebo-bold text-slate-900 text-start">התראות</Text>
           {unreadCount > 0 && (
             <Text className="text-sm font-heebo-medium text-emerald-500">({unreadCount} חדשות)</Text>
           )}
@@ -157,10 +164,17 @@ export default function NotificationsScreen() {
         {unreadCount > 0 && (
           <TouchableOpacity
             onPress={handleMarkAllRead}
-            className="flex-row items-center gap-1.5 px-3 py-1.5 rounded-lg"
+            disabled={markAllLoading}
+            className={`${rowRtl()} items-center gap-1.5 px-3 py-1.5 rounded-lg min-h-[36px] ${markAllLoading ? "opacity-70" : ""}`}
           >
-            <Ionicons name="checkmark-done" size={14} color="#059669" />
-            <Text className="text-xs font-heebo-medium text-emerald-600">סמן הכל</Text>
+            {markAllLoading ? (
+              <ActivityIndicator size="small" color="#059669" />
+            ) : (
+              <>
+                <Ionicons name="checkmark-done" size={14} color="#059669" />
+                <Text className="text-xs font-heebo-medium text-emerald-600">סמן הכל</Text>
+              </>
+            )}
           </TouchableOpacity>
         )}
       </View>
