@@ -58,9 +58,13 @@ export default function RootLayout() {
       }
 
       setUpdateStatus("downloading");
-      await Updates.fetchUpdateAsync();
-      setUpdateStatus("ready");
-      await Updates.reloadAsync();
+      const result = await Updates.fetchUpdateAsync();
+      if (result.isNew) {
+        setUpdateStatus("ready");
+        await Updates.reloadAsync();
+      } else {
+        setUpdateStatus(null);
+      }
     } catch {
       setUpdateStatus(null);
     }
