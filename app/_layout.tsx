@@ -25,7 +25,7 @@ if (!isRunningInExpoGo()) {
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
 
-type UpdateStatus = "checking" | "downloading" | "ready" | null;
+type UpdateStatus = "checking" | "downloading" | "ready" | "error" | "no-update" | null;
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -39,6 +39,7 @@ export default function RootLayout() {
   const isLoading = useAuthStore((s) => s.isLoading);
   const didHideSplashRef = useRef(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(null);
+  const [updateError, setUpdateError] = useState<string | null>(null);
   const updateCheckedRef = useRef(false);
 
   useEffect(() => {
@@ -51,22 +52,27 @@ export default function RootLayout() {
 
     try {
       setUpdateStatus("checking");
-      const check = await Updates.checkForUpdateAsync();
-      if (!check.isAvailable) {
-        setUpdateStatus(null);
-        return;
-      }
 
-      setUpdateStatus("downloading");
       const result = await Updates.fetchUpdateAsync();
       if (result.isNew) {
         setUpdateStatus("ready");
         await Updates.reloadAsync();
       } else {
-        setUpdateStatus(null);
+        setUpdateStatus("no-update");
+        setUpdateError("fetchUpdate: isNew=false");
+        setTimeout(() => {
+          setUpdateStatus(null);
+          setUpdateError(null);
+        }, 3000);
       }
-    } catch {
-      setUpdateStatus(null);
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : String(e);
+      setUpdateStatus("error");
+      setUpdateError(msg);
+      setTimeout(() => {
+        setUpdateStatus(null);
+        setUpdateError(null);
+      }, 4000);
     }
   }, []);
 
@@ -86,7 +92,7 @@ export default function RootLayout() {
   }, [fontsLoaded, isLoading]);
 
   if (!fontsLoaded || isLoading || updateStatus) {
-    return <AppSplash updateStatus={updateStatus} />;
+    return <AppSplash updateStatus={updateStatus} errorMessage={updateError} />;
   }
 
   const rootWebRtl =

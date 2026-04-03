@@ -2,10 +2,11 @@ import { View, Text, ActivityIndicator, Platform, StatusBar } from "react-native
 import { LinearGradient } from "expo-linear-gradient";
 
 interface AppSplashProps {
-  updateStatus?: "checking" | "downloading" | "ready" | null;
+  updateStatus?: "checking" | "downloading" | "ready" | "error" | "no-update" | null;
+  errorMessage?: string | null;
 }
 
-export function AppSplash({ updateStatus }: AppSplashProps = {}) {
+export function AppSplash({ updateStatus, errorMessage }: AppSplashProps = {}) {
   const padTop =
     Platform.OS === "android" ? (StatusBar.currentHeight ?? 0) + 8 : 56;
   const padBottom = Platform.OS === "android" ? 24 : 34;
@@ -18,6 +19,10 @@ export function AppSplash({ updateStatus }: AppSplashProps = {}) {
         return "מוריד עדכון…";
       case "ready":
         return "מפעיל עדכון…";
+      case "error":
+        return "שגיאת עדכון";
+      case "no-update":
+        return "אין עדכון חדש";
       default:
         return "טוען…";
     }
@@ -70,6 +75,20 @@ export function AppSplash({ updateStatus }: AppSplashProps = {}) {
         >
           {statusText}
         </Text>
+        {errorMessage ? (
+          <Text
+            style={{
+              fontSize: 11,
+              color: "rgba(255,100,100,0.8)",
+              marginTop: 8,
+              textAlign: "center",
+              paddingHorizontal: 24,
+            }}
+            numberOfLines={3}
+          >
+            {errorMessage}
+          </Text>
+        ) : null}
         <ActivityIndicator color="#5eead4" size="small" style={{ marginTop: 12 }} />
       </View>
     </LinearGradient>
