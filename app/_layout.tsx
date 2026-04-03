@@ -25,7 +25,7 @@ if (!isRunningInExpoGo()) {
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
 
-type UpdateStatus = "checking" | "downloading" | "ready" | "error" | "no-update" | null;
+type UpdateStatus = "downloading" | "ready" | null;
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -39,7 +39,7 @@ export default function RootLayout() {
   const isLoading = useAuthStore((s) => s.isLoading);
   const didHideSplashRef = useRef(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(null);
-  const [updateError, setUpdateError] = useState<string | null>(null);
+  const [downloadProgress, setDownloadProgress] = useState(0);
   const updateCheckedRef = useRef(false);
 
   useEffect(() => {
@@ -51,28 +51,29 @@ export default function RootLayout() {
     updateCheckedRef.current = true;
 
     try {
-      setUpdateStatus("checking");
+      const check = await Updates.checkForUpdateAsync();
+      if (!check.isAvailable) return;
+
+      setUpdateStatus("downloading");
+      setDownloadProgress(0);
+
+      const progressInterval = setInterval(() => {
+        setDownloadProgress((prev) => Math.min(prev + 0.08, 0.95));
+      }, 300);
 
       const result = await Updates.fetchUpdateAsync();
+
+      clearInterval(progressInterval);
+
       if (result.isNew) {
+        setDownloadProgress(1);
         setUpdateStatus("ready");
         await Updates.reloadAsync();
       } else {
-        setUpdateStatus("no-update");
-        setUpdateError("fetchUpdate: isNew=false");
-        setTimeout(() => {
-          setUpdateStatus(null);
-          setUpdateError(null);
-        }, 3000);
-      }
-    } catch (e: unknown) {
-      const msg = e instanceof Error ? e.message : String(e);
-      setUpdateStatus("error");
-      setUpdateError(msg);
-      setTimeout(() => {
         setUpdateStatus(null);
-        setUpdateError(null);
-      }, 4000);
+      }
+    } catch {
+      setUpdateStatus(null);
     }
   }, []);
 
@@ -92,7 +93,7 @@ export default function RootLayout() {
   }, [fontsLoaded, isLoading]);
 
   if (!fontsLoaded || isLoading || updateStatus) {
-    return <AppSplash updateStatus={updateStatus} errorMessage={updateError} />;
+    return <AppSplash updateStatus={updateStatus} progress={downloadProgress} />;
   }
 
   const rootWebRtl =

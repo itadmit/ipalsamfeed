@@ -2,31 +2,27 @@ import { View, Text, ActivityIndicator, Platform, StatusBar } from "react-native
 import { LinearGradient } from "expo-linear-gradient";
 
 interface AppSplashProps {
-  updateStatus?: "checking" | "downloading" | "ready" | "error" | "no-update" | null;
-  errorMessage?: string | null;
+  updateStatus?: "downloading" | "ready" | null;
+  progress?: number;
 }
 
-export function AppSplash({ updateStatus, errorMessage }: AppSplashProps = {}) {
+export function AppSplash({ updateStatus, progress = 0 }: AppSplashProps = {}) {
   const padTop =
     Platform.OS === "android" ? (StatusBar.currentHeight ?? 0) + 8 : 56;
   const padBottom = Platform.OS === "android" ? 24 : 34;
 
   const statusText = (() => {
     switch (updateStatus) {
-      case "checking":
-        return "בודק עדכונים…";
       case "downloading":
         return "מוריד עדכון…";
       case "ready":
         return "מפעיל עדכון…";
-      case "error":
-        return "שגיאת עדכון";
-      case "no-update":
-        return "אין עדכון חדש";
       default:
         return "טוען…";
     }
   })();
+
+  const showProgress = updateStatus === "downloading" || updateStatus === "ready";
 
   return (
     <LinearGradient
@@ -64,32 +60,51 @@ export function AppSplash({ updateStatus, errorMessage }: AppSplashProps = {}) {
         >
           רשת חברתית גדודית
         </Text>
-        <Text
-          style={{
-            fontSize: 14,
-            color: "rgba(94, 234, 212, 0.7)",
-            marginTop: 32,
-            textAlign: "center",
-            writingDirection: "rtl",
-          }}
-        >
-          {statusText}
-        </Text>
-        {errorMessage ? (
-          <Text
-            style={{
-              fontSize: 11,
-              color: "rgba(255,100,100,0.8)",
-              marginTop: 8,
-              textAlign: "center",
-              paddingHorizontal: 24,
-            }}
-            numberOfLines={3}
-          >
-            {errorMessage}
-          </Text>
-        ) : null}
-        <ActivityIndicator color="#5eead4" size="small" style={{ marginTop: 12 }} />
+
+        {showProgress ? (
+          <View style={{ marginTop: 36, alignItems: "center", width: "100%" }}>
+            <Text
+              style={{
+                fontSize: 14,
+                color: "rgba(94, 234, 212, 0.7)",
+                textAlign: "center",
+                writingDirection: "rtl",
+                marginBottom: 12,
+              }}
+            >
+              {statusText}
+            </Text>
+            <View
+              style={{
+                width: "60%",
+                height: 4,
+                borderRadius: 2,
+                backgroundColor: "rgba(94, 234, 212, 0.15)",
+                overflow: "hidden",
+              }}
+            >
+              <View
+                style={{
+                  width: `${Math.round(progress * 100)}%`,
+                  height: "100%",
+                  borderRadius: 2,
+                  backgroundColor: "#5eead4",
+                }}
+              />
+            </View>
+            <Text
+              style={{
+                fontSize: 12,
+                color: "rgba(94, 234, 212, 0.5)",
+                marginTop: 8,
+              }}
+            >
+              {Math.round(progress * 100)}%
+            </Text>
+          </View>
+        ) : (
+          <ActivityIndicator color="#5eead4" size="small" style={{ marginTop: 32 }} />
+        )}
       </View>
     </LinearGradient>
   );
