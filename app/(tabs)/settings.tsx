@@ -128,7 +128,7 @@ export default function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
       {/* Header */}
       <View className="px-4 py-3 border-b border-slate-100 w-full">
         <Text

@@ -64,7 +64,7 @@ export function ProfileHeader({
   const fullName = `${profile.firstName} ${profile.lastName}`;
 
   return (
-    <View className="bg-white">
+    <View className="bg-white" style={{ direction: "rtl" }}>
       {/* Cover — גובה דומה ללינקדאין / פייסבוק */}
       <View className="w-full overflow-hidden bg-slate-200" style={{ height: 220 }}>
         {profile.coverUrl ? (

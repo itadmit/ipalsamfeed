@@ -19,7 +19,8 @@
     "production": {
       "ios": {
         "appleId": "itadmit@gmail.com",
-        "appleTeamId": "489ALGCMH5"
+        "appleTeamId": "489ALGCMH5",
+        "ascAppId": "6761574229"
       }
     }
   }

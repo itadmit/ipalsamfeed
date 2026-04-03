@@ -64,7 +64,8 @@ function NotificationItem({
       <View className="flex-1">
         <View className={`${rowRtl()} items-start justify-between gap-2`}>
           <Text
-            className={`text-sm leading-5 flex-1 text-start ${isRead ? "text-slate-700" : "text-slate-900 font-heebo-bold"}`}
+            className={`text-sm leading-5 flex-1 ${isRead ? "text-slate-700" : "text-slate-900 font-heebo-bold"}`}
+            style={{ writingDirection: "rtl", textAlign: "right" }}
             style={{ writingDirection: "rtl" }}
           >
             {notification.title}
@@ -72,11 +73,11 @@ function NotificationItem({
           {!isRead && <View className="mt-1.5 w-2 h-2 rounded-full bg-emerald-500" />}
         </View>
         {notification.body && (
-          <Text className="text-xs text-slate-500 mt-0.5 text-start" numberOfLines={2} style={{ writingDirection: "rtl" }}>
+          <Text className="text-xs text-slate-500 mt-0.5" numberOfLines={2} style={{ writingDirection: "rtl", textAlign: "right" }}>
             {notification.body}
           </Text>
         )}
-        <Text className="text-[11px] text-slate-400 mt-1 text-start" style={{ writingDirection: "rtl" }}>
+        <Text className="text-[11px] text-slate-400 mt-1" style={{ writingDirection: "rtl", textAlign: "right" }}>
           {timeAgo(notification.createdAt)}
         </Text>
       </View>
@@ -152,11 +153,11 @@ export default function NotificationsScreen() {
   }, [router, refetch, queryClient]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
       {/* Header */}
       <View className={`px-4 py-3 ${rowRtl()} items-center justify-between border-b border-slate-100`}>
         <View className={`${rowRtl()} items-center gap-2`}>
-          <Text className="text-lg font-heebo-bold text-slate-900 text-start">התראות</Text>
+          <Text className="text-lg font-heebo-bold text-slate-900" style={{ writingDirection: "rtl", textAlign: "right" }}>התראות</Text>
           {unreadCount > 0 && (
             <Text className="text-sm font-heebo-medium text-emerald-500">({unreadCount} חדשות)</Text>
           )}

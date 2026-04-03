@@ -49,7 +49,7 @@ function SuggestedSlider({ users: initialUsers }: { users: SuggestedUser[] }) {
   return (
     <View className="bg-white rounded-xl border border-slate-200 overflow-hidden" style={{ elevation: 1 }}>
       <View className={`${rowRtl()} items-center justify-between px-4 pt-3 pb-1`}>
-        <Text className="text-sm font-heebo-bold text-slate-700 text-start">חברים מוצעים</Text>
+        <Text className="text-sm font-heebo-bold text-slate-700" style={{ writingDirection: "rtl", textAlign: "right" }}>חברים מוצעים</Text>
         <TouchableOpacity onPress={() => router.push("/(tabs)/explore")}>
           <Text className="text-xs text-emerald-500 font-heebo-medium">הצג הכל</Text>
         </TouchableOpacity>
@@ -168,7 +168,7 @@ export default function FeedScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-slate-50" edges={["top"]} style={{ direction: "rtl" }}>
       {/* Header */}
       <View className={`bg-white border-b border-slate-200 px-4 py-3 ${rowRtl()} items-center justify-between`}>
         <Text

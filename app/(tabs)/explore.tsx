@@ -98,7 +98,7 @@ export default function ExploreScreen() {
   const displayList = isSearching ? (searchResults ?? []) : allProfiles;
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
       {/* Header */}
       <View className="bg-white border-b border-slate-200 px-4 py-3">
         <Text

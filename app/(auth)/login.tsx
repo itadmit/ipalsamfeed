@@ -74,7 +74,7 @@ export default function LoginScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" style={{ direction: "rtl" }}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
@@ -104,7 +104,7 @@ export default function LoginScreen() {
           {/* Form */}
           <View className="gap-4">
             <View>
-              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5 text-start">טלפון</Text>
+              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5" style={{ writingDirection: "rtl", textAlign: "right" }}>טלפון</Text>
               <TextInput
                 value={phone}
                 onChangeText={setPhone}
@@ -117,7 +117,7 @@ export default function LoginScreen() {
             </View>
 
             <View>
-              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5 text-start">סיסמה</Text>
+              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5" style={{ writingDirection: "rtl", textAlign: "right" }}>סיסמה</Text>
               <View className="relative">
                 <TextInput
                   value={password}
@@ -141,7 +141,7 @@ export default function LoginScreen() {
 
             {error ? (
               <View className="bg-red-50 rounded-xl px-4 py-3">
-                <Text className="text-sm text-red-600 text-start">{error}</Text>
+                <Text className="text-sm text-red-600" style={{ writingDirection: "rtl", textAlign: "right" }}>{error}</Text>
               </View>
             ) : null}
 

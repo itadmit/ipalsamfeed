@@ -12,7 +12,7 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
-  I18nManager,
+
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -306,7 +306,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
   }, [showComments, post.id]);
 
   return (
-    <View className="bg-white rounded-xl overflow-hidden border border-slate-200" style={{ elevation: 1 }}>
+    <View className="bg-white rounded-xl overflow-hidden border border-slate-200" style={{ elevation: 1, direction: "rtl" }}>
       {post.isUploading ? (
         <View className="h-[3px] w-full bg-slate-200 overflow-hidden">
           {typeof post.uploadProgress === "number" ? (
@@ -328,7 +328,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
         activeOpacity={0.7}
       >
         <Avatar src={post.author.avatarUrl} name={authorName} size={36} />
-        <View className="flex-1 min-w-0 self-stretch" style={{ alignItems: I18nManager.isRTL ? "flex-start" : "flex-end" }}>
+        <View className="flex-1 min-w-0 self-stretch" style={{ alignItems: "flex-start" }}>
           <View className={`${rowRtl()} items-center gap-1`}>
             <Text
               className="font-heebo-bold text-sm text-slate-900"
@@ -408,7 +408,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
 
         {(hasImage || (!hasImage && !hasGradient)) && (
           <View className="px-4 py-3">
-            <Text className="text-sm text-slate-800 leading-6 text-start" style={{ writingDirection: "rtl" }}>
+            <Text className="text-sm text-slate-800 leading-6" style={{ writingDirection: "rtl", textAlign: "right" }}>
               {hasImage && <Text className="font-heebo-bold text-slate-900">{authorName} </Text>}
               {post.content}
             </Text>

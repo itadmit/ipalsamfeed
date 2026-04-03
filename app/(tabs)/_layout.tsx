@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import type { BottomTabBarButtonProps } from "@react-navigation/bottom-tabs";
 import { useQuery } from "@tanstack/react-query";
 import { Redirect, Tabs } from "expo-router";
-import { I18nManager, Platform, Pressable, Text, View } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 import { api } from "../../lib/api";
 import { useAuthStore } from "../../lib/auth";
 import { tabBarLayoutStyle } from "../../lib/rowRtl";
@@ -132,116 +132,56 @@ export default function TabLayout() {
         },
       }}
     >
-      {/*
-        כש-I18nManager.isRTL=true (אחרי forceRTL + restart), React Navigation הופך את הסדר אוטומטית:
-        הפריט הראשון ב-JSX → מימין. לכן פיד ראשון = מימין.
-        כש-isRTL=false (השקה ראשונה לפני restart), הפריט הראשון → משמאל, אז צריך היפוך.
-      */}
-      {I18nManager.isRTL ? (
-        <>
-          <Tabs.Screen
-            name="feed"
-            options={{
-              title: "פיד",
-              tabBarIcon: ({ color, focused }) => (
-                <View>
-                  <TabBarIcon name={focused ? "newspaper" : "newspaper-outline"} color={color} focused={focused} />
-                  <NotificationBadge />
-                </View>
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="explore"
-            options={{
-              title: "גלה",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "compass" : "compass-outline"} color={color} focused={focused} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="compose"
-            options={{
-              title: "חדש",
-              tabBarAccessibilityLabel: "יצירת פוסט חדש",
-              tabBarLabel: () => null,
-              tabBarIcon: () => null,
-              tabBarButton: (p) => <ComposeTabBarButton {...p} />,
-            }}
-          />
-          <Tabs.Screen
-            name="profile"
-            options={{
-              title: "פרופיל",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "person" : "person-outline"} color={color} focused={focused} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="settings"
-            options={{
-              title: "הגדרות",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "settings" : "settings-outline"} color={color} focused={focused} />
-              ),
-            }}
-          />
-        </>
-      ) : (
-        <>
-          <Tabs.Screen
-            name="settings"
-            options={{
-              title: "הגדרות",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "settings" : "settings-outline"} color={color} focused={focused} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="profile"
-            options={{
-              title: "פרופיל",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "person" : "person-outline"} color={color} focused={focused} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="compose"
-            options={{
-              title: "חדש",
-              tabBarAccessibilityLabel: "יצירת פוסט חדש",
-              tabBarLabel: () => null,
-              tabBarIcon: () => null,
-              tabBarButton: (p) => <ComposeTabBarButton {...p} />,
-            }}
-          />
-          <Tabs.Screen
-            name="explore"
-            options={{
-              title: "גלה",
-              tabBarIcon: ({ color, focused }) => (
-                <TabBarIcon name={focused ? "compass" : "compass-outline"} color={color} focused={focused} />
-              ),
-            }}
-          />
-          <Tabs.Screen
-            name="feed"
-            options={{
-              title: "פיד",
-              tabBarIcon: ({ color, focused }) => (
-                <View>
-                  <TabBarIcon name={focused ? "newspaper" : "newspaper-outline"} color={color} focused={focused} />
-                  <NotificationBadge />
-                </View>
-              ),
-            }}
-          />
-        </>
-      )}
+      {/* direction: "rtl" in tabBarStyle ensures first JSX tab = rightmost visually */}
+      <Tabs.Screen
+        name="feed"
+        options={{
+          title: "פיד",
+          tabBarIcon: ({ color, focused }) => (
+            <View>
+              <TabBarIcon name={focused ? "newspaper" : "newspaper-outline"} color={color} focused={focused} />
+              <NotificationBadge />
+            </View>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          title: "גלה",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "compass" : "compass-outline"} color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="compose"
+        options={{
+          title: "חדש",
+          tabBarAccessibilityLabel: "יצירת פוסט חדש",
+          tabBarLabel: () => null,
+          tabBarIcon: () => null,
+          tabBarButton: (p) => <ComposeTabBarButton {...p} />,
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "פרופיל",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "person" : "person-outline"} color={color} focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "הגדרות",
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? "settings" : "settings-outline"} color={color} focused={focused} />
+          ),
+        }}
+      />
       <Tabs.Screen
         name="notifications"
         options={{

@@ -10,7 +10,7 @@ import {
   Platform,
   Keyboard,
   StyleSheet,
-  I18nManager,
+
 } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -210,7 +210,7 @@ export function CreatePostForm({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={keyboardVerticalOffset}
     >
-      <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <View style={{ flex: 1, backgroundColor: "#fff", direction: "rtl" }}>
         {/* Header: X (right) | title (center) | Post button (left) */}
         <View
           style={{
@@ -494,7 +494,7 @@ export function CreatePostForm({
     <TouchableOpacity
       onPress={() => router.push("/(tabs)/compose")}
       className={`bg-white rounded-xl border border-slate-200 p-4 ${rowRtl()} items-center gap-3`}
-      style={{ elevation: 1 }}
+      style={{ elevation: 1, direction: "rtl" }}
       activeOpacity={0.7}
     >
       <Avatar src={user.avatarUrl} name={fullName} size={36} />

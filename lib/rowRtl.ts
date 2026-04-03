@@ -1,47 +1,39 @@
 import { I18nManager, Platform } from "react-native";
 
 /**
- * כשהאפליקציה בעברית, האלמנט הראשון ב-JSX צריך להופיע בימין.
- * בנייטיב לפעמים forceRTL לא מחזיר isRTL=true עד ריסטארט — אז משתמשים ב-flex-row-reverse.
- * ב-web האב מקבל direction: rtl ולכן flex-row מספיק.
+ * RTL approach: every component/screen root sets `style={{ direction: "rtl" }}`.
+ * This guarantees RTL layout regardless of I18nManager.isRTL native state
+ * (which only takes effect after a full app restart).
+ * With `direction: "rtl"`, plain `flex-row` renders first child on the RIGHT.
  */
-function needRowReverse(): boolean {
-  if (Platform.OS === "web") return false;
-  return !I18nManager.isRTL;
-}
 
-/** מחלקת Tailwind לשורה אופקית בעברית (אווטאר/כותרת ראשונה מימין) */
+/** Tailwind class for horizontal RTL row */
 export function rowRtl(): string {
-  return needRowReverse() ? "flex-row-reverse" : "flex-row";
+  return "flex-row";
 }
 
-/** Style-based row direction for inline style props (not NativeWind) */
+/** Inline style row direction */
 export function rtlRowStyle(): "row" | "row-reverse" {
-  return needRowReverse() ? "row-reverse" : "row";
+  return "row";
 }
 
-/** ל-ScrollView אופקי: הפריט הראשון במערך מימין */
+/** Horizontal ScrollView content direction */
 export function horizontalRowDirection(): "row" | "row-reverse" {
-  return needRowReverse() ? "row-reverse" : "row";
+  return "row";
 }
 
-/**
- * בר הטאבים: בנייטיב עם `forceRTL` כבר יש RTL — `direction: 'rtl'` נוסף על הבר
- * עלול לייצר סדר "הפוך". ב-web צריך `direction` מפורש כי ה-theme של Navigation לעיתים LTR.
- */
+/** Tab bar layout — always forces direction: rtl */
 export function tabBarLayoutStyle(): {
   flexDirection: "row";
-  direction?: "rtl";
+  direction: "rtl";
 } {
-  if (Platform.OS === "web") {
-    return { flexDirection: "row", direction: "rtl" };
-  }
-  return { flexDirection: "row" };
+  return { flexDirection: "row", direction: "rtl" };
 }
 
 /**
- * ScrollView אופקי: row-reverse לא הופך את כיוון הגלילה.
- * scaleX(-1) על המעטפת ועל כרטיסייה מחזיר תוכן רגיל ומרגיש כמו RTL.
+ * ScrollView horizontal mirroring via scaleX(-1).
+ * Kept as-is: uses I18nManager.isRTL because scaleX is a separate
+ * visual trick unrelated to the `direction` style prop.
  */
 export function rtlMirrorHorizontalScroll(): boolean {
   if (Platform.OS === "web") return true;
