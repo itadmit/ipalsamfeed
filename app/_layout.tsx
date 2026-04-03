@@ -40,6 +40,7 @@ export default function RootLayout() {
   const didHideSplashRef = useRef(false);
   const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(null);
   const [downloadProgress, setDownloadProgress] = useState(0);
+  const [otaDone, setOtaDone] = useState(false);
   const updateCheckedRef = useRef(false);
 
   useEffect(() => {
@@ -47,22 +48,27 @@ export default function RootLayout() {
   }, [loadFromStorage]);
 
   const checkForOtaUpdate = useCallback(async () => {
-    if (__DEV__ || isRunningInExpoGo() || updateCheckedRef.current) return;
+    if (__DEV__ || isRunningInExpoGo() || updateCheckedRef.current) {
+      setOtaDone(true);
+      return;
+    }
     updateCheckedRef.current = true;
 
     try {
       const check = await Updates.checkForUpdateAsync();
-      if (!check.isAvailable) return;
+      if (!check.isAvailable) {
+        setOtaDone(true);
+        return;
+      }
 
       setUpdateStatus("downloading");
       setDownloadProgress(0);
 
       const progressInterval = setInterval(() => {
-        setDownloadProgress((prev) => Math.min(prev + 0.08, 0.95));
-      }, 300);
+        setDownloadProgress((prev) => Math.min(prev + 0.06, 0.92));
+      }, 350);
 
       const result = await Updates.fetchUpdateAsync();
-
       clearInterval(progressInterval);
 
       if (result.isNew) {
@@ -70,9 +76,11 @@ export default function RootLayout() {
         setUpdateStatus("ready");
         await Updates.reloadAsync();
       } else {
+        setOtaDone(true);
         setUpdateStatus(null);
       }
     } catch {
+      setOtaDone(true);
       setUpdateStatus(null);
     }
   }, []);
@@ -92,7 +100,8 @@ export default function RootLayout() {
     return () => cancelAnimationFrame(id);
   }, [fontsLoaded, isLoading]);
 
-  if (!fontsLoaded || isLoading || updateStatus) {
+  const showSplash = !fontsLoaded || isLoading || !otaDone || updateStatus;
+  if (showSplash) {
     return <AppSplash updateStatus={updateStatus} progress={downloadProgress} />;
   }
 

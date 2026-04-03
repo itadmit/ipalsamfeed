@@ -404,7 +404,7 @@ export default function SettingsScreen() {
         <Text
           className="text-xs text-slate-300 text-center pb-4"
         >
-          גרסה 1.4
+          גרסה 1.5
         </Text>
       </ScrollView>
     </SafeAreaView>
