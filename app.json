@@ -11,7 +11,7 @@
     "splash": {
       "image": "./assets/images/splash-logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#059669"
+      "backgroundColor": "#0f172a"
     },
     "ios": {
       "bundleIdentifier": "com.quickshopil.ipalsamfeed",
@@ -50,7 +50,7 @@
         {
           "image": "./assets/images/splash-logo.png",
           "resizeMode": "contain",
-          "backgroundColor": "#059669"
+          "backgroundColor": "#0f172a"
         }
       ],
       "expo-secure-store",

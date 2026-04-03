@@ -25,7 +25,7 @@ export function AppSplash({ updateStatus }: AppSplashProps = {}) {
 
   return (
     <LinearGradient
-      colors={["#059669", "#0d9488", "#0f766e"]}
+      colors={["#0f172a", "#1e293b", "#0f172a"]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={{ flex: 1 }}
@@ -38,26 +38,39 @@ export function AppSplash({ updateStatus }: AppSplashProps = {}) {
           style={{
             fontSize: 52,
             fontWeight: "800",
-            color: "#ffffff",
+            color: "#5eead4",
             textAlign: "center",
             letterSpacing: -1,
+            textShadowColor: "rgba(20, 184, 166, 0.4)",
+            textShadowOffset: { width: 0, height: 0 },
+            textShadowRadius: 30,
           }}
         >
           iPalsam
         </Text>
         <Text
-          className="text-white/80 text-base mt-2"
-          style={{ textAlign: "center", writingDirection: "rtl" }}
+          style={{
+            fontSize: 16,
+            color: "rgba(255,255,255,0.5)",
+            marginTop: 8,
+            textAlign: "center",
+            writingDirection: "rtl",
+          }}
         >
           רשת חברתית גדודית
         </Text>
         <Text
-          className="text-white/90 text-sm mt-8"
-          style={{ textAlign: "center", writingDirection: "rtl" }}
+          style={{
+            fontSize: 14,
+            color: "rgba(94, 234, 212, 0.7)",
+            marginTop: 32,
+            textAlign: "center",
+            writingDirection: "rtl",
+          }}
         >
           {statusText}
         </Text>
-        <ActivityIndicator color="#ffffff" size="small" style={{ marginTop: 12 }} />
+        <ActivityIndicator color="#5eead4" size="small" style={{ marginTop: 12 }} />
       </View>
     </LinearGradient>
   );
