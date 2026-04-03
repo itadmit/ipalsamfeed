@@ -49,7 +49,7 @@ export function AppSplash({ updateStatus }: AppSplashProps = {}) {
           className="text-white/80 text-base mt-2"
           style={{ textAlign: "center", writingDirection: "rtl" }}
         >
-          הרשת החברתית הפנימית
+          רשת חברתית גדודית
         </Text>
         <Text
           className="text-white/90 text-sm mt-8"
