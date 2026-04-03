@@ -43,7 +43,7 @@ export default function RootLayout() {
   }, [loadFromStorage]);
 
   useEffect(() => {
-    if (!isRunningInExpoGo() || !fontsLoaded || isLoading || didHideSplashRef.current) return;
+    if (!fontsLoaded || isLoading || didHideSplashRef.current) return;
     didHideSplashRef.current = true;
     const id = requestAnimationFrame(() => {
       SplashScreen.hideAsync().catch(() => {});

@@ -131,15 +131,15 @@ export function ProfileHeader({
               onPress={onFollow}
               disabled={followLoading}
               activeOpacity={0.85}
-              className={`rounded-xl px-5 py-2.5 mb-0.5 min-h-[44px] min-w-[132px] ${rowRtl()} items-center justify-center gap-2 ${isFollowing ? "bg-slate-100 border border-slate-200" : "bg-emerald-500"}`}
+              className={`rounded-xl px-5 py-2 mt-3 min-h-[40px] min-w-[114px] ${rowRtl()} items-center justify-center gap-2 ${isFollowing ? "bg-slate-100 border border-slate-200" : "bg-emerald-500"}`}
               style={
                 !isFollowing
                   ? {
                       shadowColor: "#059669",
-                      shadowOffset: { width: 0, height: 2 },
-                      shadowOpacity: 0.25,
-                      shadowRadius: 4,
-                      elevation: 3,
+                      shadowOffset: { width: 0, height: 1 },
+                      shadowOpacity: 0.2,
+                      shadowRadius: 3,
+                      elevation: 2,
                     }
                   : undefined
               }
@@ -147,18 +147,18 @@ export function ProfileHeader({
               {followLoading ? (
                 <>
                   <ActivityIndicator size="small" color={isFollowing ? "#475569" : "#ffffff"} />
-                  <Text className={`text-sm font-heebo-bold ${isFollowing ? "text-slate-600" : "text-white"}`}>
+                  <Text className={`text-[13px] font-heebo-bold ${isFollowing ? "text-slate-600" : "text-white"}`}>
                     רגע...
                   </Text>
                 </>
               ) : (
                 <>
                   {isFollowing ? (
-                    <Ionicons name="person-remove-outline" size={20} color="#475569" />
+                    <Ionicons name="person-remove-outline" size={18} color="#475569" />
                   ) : (
-                    <Ionicons name="person-add-outline" size={20} color="#ffffff" />
+                    <Ionicons name="person-add-outline" size={18} color="#ffffff" />
                   )}
-                  <Text className={`text-sm font-heebo-bold ${isFollowing ? "text-slate-700" : "text-white"}`}>
+                  <Text className={`text-[13px] font-heebo-bold ${isFollowing ? "text-slate-700" : "text-white"}`}>
                     {isFollowing ? "הפסק לעקוב" : "עקוב"}
                   </Text>
                 </>
@@ -232,7 +232,7 @@ export function ProfileHeader({
 
         {/* פרטים מקצועיים */}
         {(profile.occupation || profile.workplace || profile.hobbies || profile.relationshipStatus) && (
-          <View className="pt-4 pb-1 gap-3 border-b border-slate-100">
+          <View className="pt-4 pb-4 gap-3 border-b border-slate-100">
             {profile.occupation && (
               <View className={`${rowRtl()} items-start gap-3`}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
