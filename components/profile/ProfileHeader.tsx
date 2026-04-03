@@ -168,7 +168,7 @@ export function ProfileHeader({
         </View>
 
         {/* שם + אימות */}
-        <View className="mt-4">
+        <View className="mt-4" style={{ direction: "rtl" }}>
           <View className={`${rowRtl()} items-center gap-2 flex-wrap`}>
             <Text
               className="text-xl font-heebo-bold text-slate-900"
@@ -180,7 +180,7 @@ export function ProfileHeader({
           </View>
           {profile.rank ? (
             <Text
-              className="text-sm text-slate-500 mt-1 leading-5"
+              className="text-sm text-slate-500 mt-1 leading-5 w-full"
               style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               {profile.rank}
@@ -232,9 +232,9 @@ export function ProfileHeader({
 
         {/* פרטים מקצועיים */}
         {(profile.occupation || profile.workplace || profile.hobbies || profile.relationshipStatus) && (
-          <View className="pt-4 pb-4 gap-3 border-b border-slate-100">
+          <View className="pt-4 pb-4 gap-3 border-b border-slate-100" style={{ direction: "rtl" }}>
             {profile.occupation && (
-              <View className={`${rowRtl()} items-start gap-3`}>
+              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="briefcase-outline" size={18} color="#64748b" />
                 </View>
@@ -247,7 +247,7 @@ export function ProfileHeader({
               </View>
             )}
             {profile.workplace && (
-              <View className={`${rowRtl()} items-start gap-3`}>
+              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="business-outline" size={18} color="#64748b" />
                 </View>
@@ -260,7 +260,7 @@ export function ProfileHeader({
               </View>
             )}
             {profile.hobbies && (
-              <View className={`${rowRtl()} items-start gap-3`}>
+              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="heart-outline" size={18} color="#64748b" />
                 </View>
@@ -273,7 +273,7 @@ export function ProfileHeader({
               </View>
             )}
             {profile.relationshipStatus && (
-              <View className={`${rowRtl()} items-start gap-3`}>
+              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="people-outline" size={18} color="#64748b" />
                 </View>
