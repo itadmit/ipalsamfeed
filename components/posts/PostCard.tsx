@@ -12,6 +12,7 @@ import {
   ScrollView,
   StyleSheet,
   Dimensions,
+  I18nManager,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Image } from "expo-image";
@@ -327,7 +328,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
         activeOpacity={0.7}
       >
         <Avatar src={post.author.avatarUrl} name={authorName} size={36} />
-        <View className="flex-1 min-w-0 self-stretch">
+        <View className="flex-1 min-w-0 self-stretch" style={{ alignItems: I18nManager.isRTL ? "flex-start" : "flex-end" }}>
           <View className={`${rowRtl()} items-center gap-1`}>
             <Text
               className="font-heebo-bold text-sm text-slate-900"
