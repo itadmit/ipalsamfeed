@@ -5,7 +5,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { Avatar } from "../ui/Avatar";
 import { VerifiedBadge } from "../ui/VerifiedBadge";
 import type { ProfileData } from "../../lib/types";
-import { rowRtl } from "../../lib/rowRtl";
 import { relationshipStatusDisplay } from "../../lib/relationshipStatus";
 
 interface ProfileHeaderProps {
@@ -18,6 +17,8 @@ interface ProfileHeaderProps {
   followLoading?: boolean;
   onEditProfile?: () => void;
 }
+
+const RTL_ROW = { flexDirection: "row" as const, direction: "rtl" as const };
 
 function StatBlock({
   icon,
@@ -32,12 +33,17 @@ function StatBlock({
 }) {
   return (
     <View
-      className={`flex-1 min-w-0 ${showDivider ? "border-s border-slate-200/90" : ""}`}
-      style={{ paddingVertical: 14 }}
+      style={{
+        flex: 1,
+        minWidth: 0,
+        paddingVertical: 14,
+        borderStartWidth: showDivider ? 1 : 0,
+        borderStartColor: "rgba(226,232,240,0.9)",
+      }}
     >
-      <View className={`${rowRtl()} items-center justify-center gap-2 px-1`}>
+      <View style={{ ...RTL_ROW, alignItems: "center", justifyContent: "center", gap: 8, paddingHorizontal: 4 }}>
         <Ionicons name={icon} size={22} color="#64748b" />
-        <View className="items-center min-w-0">
+        <View style={{ alignItems: "center", minWidth: 0 }}>
           <Text
             className="text-base font-heebo-bold text-slate-900"
             numberOfLines={1}
@@ -65,7 +71,7 @@ export function ProfileHeader({
 
   return (
     <View className="bg-white" style={{ direction: "rtl" }}>
-      {/* Cover — גובה דומה ללינקדאין / פייסבוק */}
+      {/* Cover */}
       <View className="w-full overflow-hidden bg-slate-200" style={{ height: 220 }}>
         {profile.coverUrl ? (
           <Image
@@ -96,8 +102,8 @@ export function ProfileHeader({
       </View>
 
       <View className="px-4 -mt-[52px] pb-1">
-        {/* Avatar + פעולות */}
-        <View className={`${rowRtl()} items-end justify-between`}>
+        {/* Avatar + actions */}
+        <View style={{ ...RTL_ROW, alignItems: "flex-end", justifyContent: "space-between" }}>
           <View
             className="rounded-full border-[3px] border-white overflow-hidden bg-white"
             style={{
@@ -114,8 +120,17 @@ export function ProfileHeader({
             <TouchableOpacity
               onPress={onEditProfile}
               activeOpacity={0.85}
-              className={`bg-white border border-slate-200 rounded-xl px-4 py-2.5 ${rowRtl()} items-center gap-2 mb-0.5`}
               style={{
+                ...RTL_ROW,
+                alignItems: "center",
+                gap: 8,
+                backgroundColor: "#fff",
+                borderWidth: 1,
+                borderColor: "#e2e8f0",
+                borderRadius: 12,
+                paddingHorizontal: 16,
+                paddingVertical: 10,
+                marginBottom: 2,
                 shadowColor: "#000",
                 shadowOffset: { width: 0, height: 1 },
                 shadowOpacity: 0.06,
@@ -131,18 +146,32 @@ export function ProfileHeader({
               onPress={onFollow}
               disabled={followLoading}
               activeOpacity={0.85}
-              className={`rounded-xl px-5 py-2 mt-3 min-h-[40px] min-w-[114px] ${rowRtl()} items-center justify-center gap-2 ${isFollowing ? "bg-slate-100 border border-slate-200" : "bg-emerald-500"}`}
-              style={
-                !isFollowing
-                  ? {
-                      shadowColor: "#059669",
-                      shadowOffset: { width: 0, height: 1 },
-                      shadowOpacity: 0.2,
-                      shadowRadius: 3,
-                      elevation: 2,
-                    }
-                  : undefined
-              }
+              style={{
+                ...RTL_ROW,
+                alignItems: "center",
+                justifyContent: "center",
+                gap: 8,
+                borderRadius: 12,
+                paddingHorizontal: 20,
+                paddingVertical: 8,
+                marginTop: 12,
+                minHeight: 40,
+                minWidth: 114,
+                backgroundColor: isFollowing ? "#f1f5f9" : "#10b981",
+                borderWidth: isFollowing ? 1 : 0,
+                borderColor: isFollowing ? "#e2e8f0" : "transparent",
+                ...(
+                  !isFollowing
+                    ? {
+                        shadowColor: "#059669",
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: 0.2,
+                        shadowRadius: 3,
+                        elevation: 2,
+                      }
+                    : {}
+                ),
+              }}
             >
               {followLoading ? (
                 <>
@@ -167,9 +196,9 @@ export function ProfileHeader({
           )}
         </View>
 
-        {/* שם + אימות */}
-        <View className="mt-4" style={{ direction: "rtl" }}>
-          <View className={`${rowRtl()} items-center gap-2 flex-wrap`}>
+        {/* Name + verified */}
+        <View style={{ marginTop: 16, direction: "rtl" }}>
+          <View style={{ ...RTL_ROW, alignItems: "center", gap: 8, flexWrap: "wrap" }}>
             <Text
               className="text-xl font-heebo-bold text-slate-900"
               style={{ writingDirection: "rtl", textAlign: "right" }}
@@ -180,23 +209,23 @@ export function ProfileHeader({
           </View>
           {profile.rank ? (
             <Text
-              className="text-sm text-slate-500 mt-1 leading-5 w-full"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
+              className="text-sm text-slate-500 mt-1 leading-5"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
             >
               {profile.rank}
             </Text>
           ) : null}
           {profile.bio ? (
             <Text
-              className="text-[15px] text-slate-700 mt-2.5 leading-6 w-full"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
+              className="text-[15px] text-slate-700 mt-2.5 leading-6"
+              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
             >
               {profile.bio}
             </Text>
           ) : null}
         </View>
 
-        {/* סטטיסטיקות — רוחב מלא, אייקונים, קווי הפרדה */}
+        {/* Stats */}
         <View
           className="mt-5 -mx-4 px-4"
           style={{
@@ -206,35 +235,20 @@ export function ProfileHeader({
             backgroundColor: "rgba(248, 250, 252, 0.65)",
           }}
         >
-          <View className={`${rowRtl()} w-full items-stretch`}>
-            <StatBlock
-              icon="people-outline"
-              value={followersCount}
-              label="עוקבים"
-              showDivider
-            />
-            <StatBlock
-              icon="person-outline"
-              value={followingCount}
-              label="עוקב"
-              showDivider={profile.profileViews > 0}
-            />
+          <View style={{ ...RTL_ROW, width: "100%", alignItems: "stretch" }}>
+            <StatBlock icon="people-outline" value={followersCount} label="עוקבים" showDivider />
+            <StatBlock icon="person-outline" value={followingCount} label="עוקב" showDivider={profile.profileViews > 0} />
             {profile.profileViews > 0 ? (
-              <StatBlock
-                icon="eye-outline"
-                value={profile.profileViews}
-                label="צפיות"
-                showDivider={false}
-              />
+              <StatBlock icon="eye-outline" value={profile.profileViews} label="צפיות" showDivider={false} />
             ) : null}
           </View>
         </View>
 
-        {/* פרטים מקצועיים */}
+        {/* Professional details */}
         {(profile.occupation || profile.workplace || profile.hobbies || profile.relationshipStatus) && (
-          <View className="pt-4 pb-4 gap-3 border-b border-slate-100" style={{ direction: "rtl" }}>
+          <View style={{ paddingTop: 16, paddingBottom: 16, gap: 12, borderBottomWidth: 1, borderBottomColor: "#f1f5f9", direction: "rtl" }}>
             {profile.occupation && (
-              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
+              <View style={{ ...RTL_ROW, alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="briefcase-outline" size={18} color="#64748b" />
                 </View>
@@ -247,7 +261,7 @@ export function ProfileHeader({
               </View>
             )}
             {profile.workplace && (
-              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
+              <View style={{ ...RTL_ROW, alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="business-outline" size={18} color="#64748b" />
                 </View>
@@ -260,7 +274,7 @@ export function ProfileHeader({
               </View>
             )}
             {profile.hobbies && (
-              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
+              <View style={{ ...RTL_ROW, alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="heart-outline" size={18} color="#64748b" />
                 </View>
@@ -273,7 +287,7 @@ export function ProfileHeader({
               </View>
             )}
             {profile.relationshipStatus && (
-              <View style={{ flexDirection: "row", alignItems: "flex-start", gap: 12 }}>
+              <View style={{ ...RTL_ROW, alignItems: "flex-start", gap: 12 }}>
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="people-outline" size={18} color="#64748b" />
                 </View>
