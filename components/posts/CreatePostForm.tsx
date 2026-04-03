@@ -10,6 +10,7 @@ import {
   Platform,
   Keyboard,
   StyleSheet,
+  I18nManager,
 } from "react-native";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
@@ -22,7 +23,7 @@ import { Avatar } from "../ui/Avatar";
 import { POST_BACKGROUNDS, getPostBackground, EMOJI_POSITIONS } from "../../lib/postBackgrounds";
 import { api, apiUploadWithProgress } from "../../lib/api";
 import { hebrewTextInput } from "../../lib/hebrewInputStyle";
-import { rowRtl, horizontalRowDirection } from "../../lib/rowRtl";
+import { rowRtl, rtlRowStyle, horizontalRowDirection } from "../../lib/rowRtl";
 import { useAuthStore } from "../../lib/auth";
 import type { PostData, PostAuthor, PostPublishEvent } from "../../lib/types";
 
@@ -213,7 +214,7 @@ export function CreatePostForm({
         {/* Header: X (right) | title (center) | Post button (left) */}
         <View
           style={{
-            flexDirection: "row-reverse",
+            flexDirection: rtlRowStyle(),
             alignItems: "center",
             justifyContent: "space-between",
             paddingHorizontal: 16,
@@ -269,7 +270,7 @@ export function CreatePostForm({
         {/* User info row */}
         <View
           style={{
-            flexDirection: "row-reverse",
+            flexDirection: rtlRowStyle(),
             alignItems: "center",
             gap: 10,
             paddingHorizontal: 16,
@@ -387,13 +388,13 @@ export function CreatePostForm({
             paddingBottom: Math.max(insets.bottom, 8),
           }}
         >
-          <View style={{ flexDirection: "row-reverse", alignItems: "center", gap: 8, paddingBottom: 4 }}>
+          <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 8, paddingBottom: 4 }}>
             <TouchableOpacity
               onPress={handlePickImagePress}
               activeOpacity={0.7}
               accessibilityLabel="העלאת תמונה"
               style={{
-                flexDirection: "row-reverse",
+                flexDirection: rtlRowStyle(),
                 alignItems: "center",
                 gap: 6,
                 paddingVertical: 8,
@@ -415,7 +416,7 @@ export function CreatePostForm({
               disabled={!!imageUri}
               accessibilityLabel="בחירת רקע לפוסט"
               style={{
-                flexDirection: "row-reverse",
+                flexDirection: rtlRowStyle(),
                 alignItems: "center",
                 gap: 6,
                 paddingVertical: 8,

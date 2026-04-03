@@ -15,6 +15,11 @@ export function rowRtl(): string {
   return needRowReverse() ? "flex-row-reverse" : "flex-row";
 }
 
+/** Style-based row direction for inline style props (not NativeWind) */
+export function rtlRowStyle(): "row" | "row-reverse" {
+  return needRowReverse() ? "row-reverse" : "row";
+}
+
 /** ל-ScrollView אופקי: הפריט הראשון במערך מימין */
 export function horizontalRowDirection(): "row" | "row-reverse" {
   return needRowReverse() ? "row-reverse" : "row";

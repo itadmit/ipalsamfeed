@@ -11,7 +11,7 @@ import { Image } from "expo-image";
 import { api, apiUpload } from "../../lib/api";
 import { hebrewTextInput } from "../../lib/hebrewInputStyle";
 import { RELATIONSHIP_STATUS_OPTIONS, relationshipStatusDisplay } from "../../lib/relationshipStatus";
-import { rowRtl } from "../../lib/rowRtl";
+import { rowRtl, rtlRowStyle } from "../../lib/rowRtl";
 import { useAuthStore } from "../../lib/auth";
 import { Avatar } from "../../components/ui/Avatar";
 
@@ -128,12 +128,12 @@ export default function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className="px-4 py-3 border-b border-slate-100 w-full">
         <Text
           className="text-lg font-heebo-bold text-slate-900"
-          style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+          style={{ writingDirection: "rtl", textAlign: "right" }}
         >
           הגדרות
         </Text>
@@ -141,12 +141,10 @@ export default function SettingsScreen() {
 
       <ScrollView
         className="flex-1"
-        style={{ flex: 1, direction: "rtl" }}
+        style={{ flex: 1 }}
         contentContainerStyle={{
           paddingBottom: 100,
-          width: "100%",
           alignItems: "stretch",
-          direction: "rtl",
         }}
       >
         {/* Profile Photos */}
@@ -189,18 +187,18 @@ export default function SettingsScreen() {
         </View>
 
         {/* Bio & Info */}
-        <View className="px-4 py-4 gap-4" style={{ width: "100%" }}>
+        <View className="px-4 py-4 gap-4">
           <Text
             className="text-sm font-heebo-bold text-slate-700"
-            style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            style={{ writingDirection: "rtl", textAlign: "right" }}
           >
             פרטים אישיים
           </Text>
 
-          <View style={{ width: "100%" }}>
+          <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               ביו
             </Text>
@@ -210,15 +208,15 @@ export default function SettingsScreen() {
               placeholder="ספר/י משהו על עצמך..."
               placeholderTextColor="#94a3b8"
               multiline
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 min-h-[80px] w-full"
-              style={[hebrewTextInput, { textAlignVertical: "top", width: "100%" }]}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 min-h-[80px]"
+              style={[hebrewTextInput, { textAlignVertical: "top" }]}
             />
           </View>
 
-          <View style={{ width: "100%" }}>
+          <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               מקצוע
             </Text>
@@ -227,15 +225,15 @@ export default function SettingsScreen() {
               onChangeText={setOccupation}
               placeholder="מה אתה עושה?"
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 w-full"
-              style={[hebrewTextInput, { width: "100%" }]}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
+              style={hebrewTextInput}
             />
           </View>
 
-          <View style={{ width: "100%" }}>
+          <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               מקום עבודה
             </Text>
@@ -244,15 +242,15 @@ export default function SettingsScreen() {
               onChangeText={setWorkplace}
               placeholder="היכן אתה עובד?"
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 w-full"
-              style={[hebrewTextInput, { width: "100%" }]}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
+              style={hebrewTextInput}
             />
           </View>
 
-          <View style={{ width: "100%" }}>
+          <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               תחביבים
             </Text>
@@ -261,19 +259,19 @@ export default function SettingsScreen() {
               onChangeText={setHobbies}
               placeholder="תחביבים..."
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 w-full"
-              style={[hebrewTextInput, { width: "100%" }]}
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200"
+              style={hebrewTextInput}
             />
           </View>
 
-          <View style={{ width: "100%" }}>
+          <View>
             <Text
               className="text-xs text-slate-500 mb-2"
-              style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               סטטוס זוגי
             </Text>
-            <View className={`${rowRtl()} flex-wrap gap-2`} style={{ width: "100%" }}>
+            <View className={`${rowRtl()} flex-wrap gap-2`}>
               {RELATIONSHIP_STATUS_OPTIONS.map((opt) => {
                 const selected = relationshipStatus === opt;
                 return (
@@ -297,12 +295,12 @@ export default function SettingsScreen() {
             </View>
             <TouchableOpacity
               onPress={() => setRelationshipStatus("")}
-              className="mt-2 py-1 w-full"
+              className="mt-2 py-1"
               hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             >
               <Text
                 className="text-xs text-slate-500 font-heebo-medium"
-                style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+                style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 נקה בחירה (ללא סטטוס)
               </Text>
@@ -312,7 +310,7 @@ export default function SettingsScreen() {
           <TouchableOpacity
             onPress={handleSave}
             disabled={saving}
-            className={`rounded-xl py-3.5 items-center w-full ${saving ? "bg-emerald-400" : "bg-emerald-500"}`}
+            className={`rounded-xl py-3.5 items-center ${saving ? "bg-emerald-400" : "bg-emerald-500"}`}
           >
             {saving ? (
               <ActivityIndicator color="white" />
@@ -328,67 +326,67 @@ export default function SettingsScreen() {
         </View>
 
         {/* Privacy — מפסק משמאל, טקסט מימין (לא תלוי ב-direction בלבד) */}
-        <View className="px-4 py-4 gap-3 border-t border-slate-100" style={{ width: "100%" }}>
+        <View className="px-4 py-4 gap-3 border-t border-slate-100">
           <Text
             className="text-sm font-heebo-bold text-slate-700"
-            style={{ writingDirection: "rtl", textAlign: "right", width: "100%" }}
+            style={{ writingDirection: "rtl", textAlign: "right" }}
           >
             פרטיות
           </Text>
 
-          <View style={{ direction: "ltr", width: "100%" }}>
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, width: "100%", paddingVertical: 8 }}>
-              <Switch
-                value={hidePhone}
-                onValueChange={setHidePhone}
-                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
-                thumbColor={hidePhone ? "#10b981" : "#f4f4f5"}
-              />
+          <View>
+            <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
                 style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 הסתר מספר טלפון
               </Text>
+              <Switch
+                value={hidePhone}
+                onValueChange={setHidePhone}
+                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
+                thumbColor={hidePhone ? "#10b981" : "#f4f4f5"}
+              />
             </View>
 
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, width: "100%", paddingVertical: 8 }}>
-              <Switch
-                value={hideWhatsapp}
-                onValueChange={setHideWhatsapp}
-                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
-                thumbColor={hideWhatsapp ? "#10b981" : "#f4f4f5"}
-              />
+            <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
                 style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 הסתר וואטסאפ
               </Text>
+              <Switch
+                value={hideWhatsapp}
+                onValueChange={setHideWhatsapp}
+                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
+                thumbColor={hideWhatsapp ? "#10b981" : "#f4f4f5"}
+              />
             </View>
 
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 12, width: "100%", paddingVertical: 8 }}>
-              <Switch
-                value={hideFromSearch}
-                onValueChange={setHideFromSearch}
-                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
-                thumbColor={hideFromSearch ? "#10b981" : "#f4f4f5"}
-              />
+            <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
                 style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 הסתר מחיפוש
               </Text>
+              <Switch
+                value={hideFromSearch}
+                onValueChange={setHideFromSearch}
+                trackColor={{ false: "#e2e8f0", true: "#6ee7b7" }}
+                thumbColor={hideFromSearch ? "#10b981" : "#f4f4f5"}
+              />
             </View>
           </View>
         </View>
 
         {/* Logout */}
-        <View className="px-4 py-6" style={{ width: "100%" }}>
+        <View className="px-4 py-6">
           <TouchableOpacity
             onPress={handleLogout}
-            className="rounded-xl py-3.5 items-center bg-red-50 border border-red-200 w-full"
+            className="rounded-xl py-3.5 items-center bg-red-50 border border-red-200"
           >
             <View className={`${rowRtl()} items-center justify-center gap-2`}>
               <Ionicons name="log-out-outline" size={18} color="#ef4444" />
