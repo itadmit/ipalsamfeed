@@ -188,7 +188,7 @@ export function ProfileHeader({
           ) : null}
           {profile.bio ? (
             <Text
-              className="text-[15px] text-slate-700 mt-2.5 leading-6"
+              className="text-[15px] text-slate-700 mt-2.5 leading-6 w-full"
               style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               {profile.bio}
