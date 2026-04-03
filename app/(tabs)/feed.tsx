@@ -171,7 +171,16 @@ export default function FeedScreen() {
     <SafeAreaView className="flex-1 bg-slate-50" edges={["top"]}>
       {/* Header */}
       <View className={`bg-white border-b border-slate-200 px-4 py-3 ${rowRtl()} items-center justify-between`}>
-        <Text className="text-lg font-heebo-bold text-slate-900 text-start">iPalsam</Text>
+        <Text
+          style={{
+            fontFamily: "SmoochSans_800ExtraBold",
+            fontSize: 24,
+            color: "#0f172a",
+            letterSpacing: -0.5,
+          }}
+        >
+          iPalsam
+        </Text>
         <HeaderNotificationBell />
       </View>
 

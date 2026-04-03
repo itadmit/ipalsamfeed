@@ -88,8 +88,17 @@ export default function LoginScreen() {
             <View className="w-20 h-20 rounded-2xl bg-emerald-500 items-center justify-center mb-4">
               <Ionicons name="people" size={40} color="white" />
             </View>
-            <Text className="text-2xl font-heebo-bold text-slate-900">iPalsam</Text>
-            <Text className="text-sm text-slate-400 mt-1">הרשת החברתית הפנימית</Text>
+            <Text
+              style={{
+                fontFamily: "SmoochSans_800ExtraBold",
+                fontSize: 36,
+                color: "#0f172a",
+                letterSpacing: -0.5,
+              }}
+            >
+              iPalsam
+            </Text>
+            <Text className="text-sm text-slate-400 mt-1">רשת חברתית גדודית</Text>
           </View>
 
           {/* Form */}

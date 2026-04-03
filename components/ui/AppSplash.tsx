@@ -36,8 +36,8 @@ export function AppSplash({ updateStatus }: AppSplashProps = {}) {
       >
         <Text
           style={{
-            fontSize: 52,
-            fontWeight: "800",
+            fontFamily: "SmoochSans_800ExtraBold",
+            fontSize: 56,
             color: "#5eead4",
             textAlign: "center",
             letterSpacing: -1,

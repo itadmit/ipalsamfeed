@@ -12,6 +12,7 @@ import {
   Heebo_500Medium,
   Heebo_700Bold,
 } from "@expo-google-fonts/heebo";
+import { SmoochSans_800ExtraBold } from "@expo-google-fonts/smooch-sans";
 
 import { queryClient } from "../lib/queryClient";
 import { useAuthStore } from "../lib/auth";
@@ -31,6 +32,7 @@ export default function RootLayout() {
     Heebo: Heebo_400Regular,
     Heebo_500Medium,
     Heebo_700Bold,
+    SmoochSans_800ExtraBold,
   });
 
   const loadFromStorage = useAuthStore((s) => s.loadFromStorage);
