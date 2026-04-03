@@ -2,13 +2,27 @@ import { View, Text, ActivityIndicator, Platform, StatusBar } from "react-native
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 
-/**
- * מסך פתיחה בזמן טעינת פונטים / אימות — לוגו במרכז (גיבוי כשהספלאש הנייטיבי לא נרשם, למשל ב-Expo Go).
- */
-export function AppSplash() {
+interface AppSplashProps {
+  updateStatus?: "checking" | "downloading" | "ready" | null;
+}
+
+export function AppSplash({ updateStatus }: AppSplashProps = {}) {
   const padTop =
     Platform.OS === "android" ? (StatusBar.currentHeight ?? 0) + 8 : 56;
   const padBottom = Platform.OS === "android" ? 24 : 34;
+
+  const statusText = (() => {
+    switch (updateStatus) {
+      case "checking":
+        return "בודק עדכונים…";
+      case "downloading":
+        return "מוריד עדכון…";
+      case "ready":
+        return "מפעיל עדכון…";
+      default:
+        return "טוען…";
+    }
+  })();
 
   return (
     <LinearGradient
@@ -52,7 +66,7 @@ export function AppSplash() {
           className="text-white text-base font-heebo-bold mt-6"
           style={{ textAlign: "center", writingDirection: "rtl" }}
         >
-          טוען…
+          {statusText}
         </Text>
         <ActivityIndicator color="#ffffff" size="large" style={{ marginTop: 16 }} />
       </View>

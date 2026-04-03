@@ -1,10 +1,11 @@
 import "../global.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { I18nManager, Platform, View } from "react-native";
 import { Stack, SplashScreen } from "expo-router";
 import { isRunningInExpoGo } from "expo";
 import { StatusBar } from "expo-status-bar";
 import { QueryClientProvider } from "@tanstack/react-query";
+import * as Updates from "expo-updates";
 import {
   useFonts,
   Heebo_400Regular,
@@ -16,16 +17,14 @@ import { queryClient } from "../lib/queryClient";
 import { useAuthStore } from "../lib/auth";
 import { AppSplash } from "../components/ui/AppSplash";
 
-/**
- * ב-Expo Go אין ספלאש נייטיב מותאם אישית — preventAutoHideAsync נשאר "תקוע" בלי hide מתאים
- * ואז רואים רק את ספלאש ברירת המחדל של Go. ב-dev client / build אמיתי שומרים על המנגנון הרגיל.
- */
 if (!isRunningInExpoGo()) {
   SplashScreen.preventAutoHideAsync().catch(() => {});
 }
 
 I18nManager.allowRTL(true);
 I18nManager.forceRTL(true);
+
+type UpdateStatus = "checking" | "downloading" | "ready" | null;
 
 export default function RootLayout() {
   const [fontsLoaded] = useFonts({
@@ -37,10 +36,39 @@ export default function RootLayout() {
   const loadFromStorage = useAuthStore((s) => s.loadFromStorage);
   const isLoading = useAuthStore((s) => s.isLoading);
   const didHideSplashRef = useRef(false);
+  const [updateStatus, setUpdateStatus] = useState<UpdateStatus>(null);
+  const updateCheckedRef = useRef(false);
 
   useEffect(() => {
     loadFromStorage();
   }, [loadFromStorage]);
+
+  const checkForOtaUpdate = useCallback(async () => {
+    if (__DEV__ || isRunningInExpoGo() || updateCheckedRef.current) return;
+    updateCheckedRef.current = true;
+
+    try {
+      setUpdateStatus("checking");
+      const check = await Updates.checkForUpdateAsync();
+      if (!check.isAvailable) {
+        setUpdateStatus(null);
+        return;
+      }
+
+      setUpdateStatus("downloading");
+      await Updates.fetchUpdateAsync();
+      setUpdateStatus("ready");
+      await Updates.reloadAsync();
+    } catch {
+      setUpdateStatus(null);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (fontsLoaded && !isLoading) {
+      checkForOtaUpdate();
+    }
+  }, [fontsLoaded, isLoading, checkForOtaUpdate]);
 
   useEffect(() => {
     if (!fontsLoaded || isLoading || didHideSplashRef.current) return;
@@ -51,8 +79,8 @@ export default function RootLayout() {
     return () => cancelAnimationFrame(id);
   }, [fontsLoaded, isLoading]);
 
-  if (!fontsLoaded || isLoading) {
-    return <AppSplash />;
+  if (!fontsLoaded || isLoading || updateStatus) {
+    return <AppSplash updateStatus={updateStatus} />;
   }
 
   const rootWebRtl =
