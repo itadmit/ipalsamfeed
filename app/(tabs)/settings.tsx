@@ -399,6 +399,13 @@ export default function SettingsScreen() {
             </View>
           </TouchableOpacity>
         </View>
+
+        {/* Version */}
+        <Text
+          className="text-xs text-slate-300 text-center pb-4"
+        >
+          גרסה 1.1
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
