@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Switch,
+  View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Switch, I18nManager,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -404,7 +404,7 @@ export default function SettingsScreen() {
         <Text
           className="text-xs text-slate-300 text-center pb-4"
         >
-          גרסה 1.9
+          גרסה 1.10 | RTL: {String(I18nManager.isRTL)}
         </Text>
       </ScrollView>
     </SafeAreaView>
