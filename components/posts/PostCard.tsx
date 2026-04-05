@@ -36,7 +36,7 @@ import { VerifiedBadge } from "../ui/VerifiedBadge";
 import { getPostBackground, EMOJI_POSITIONS } from "../../lib/postBackgrounds";
 import { timeAgo } from "../../lib/timeAgo";
 import { api } from "../../lib/api";
-import { hebrewTextInput } from "../../lib/hebrewInputStyle";
+import { hebrewTextInput, rtlText } from "../../lib/hebrewInputStyle";
 import { rowRtl } from "../../lib/rowRtl";
 import type { PostData, PostComment } from "../../lib/types";
 
@@ -330,7 +330,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
         <Avatar src={post.author.avatarUrl} name={authorName} size={36} />
         <View className="flex-1 min-w-0 self-stretch" style={{ alignItems: "flex-start" }}>
           <View className={`${rowRtl()} items-center gap-1`}>
-            <Text className="font-heebo-bold text-sm text-slate-900">
+            <Text className="font-heebo-bold text-sm text-slate-900" style={rtlText}>
               {authorName}
             </Text>
             {post.author.isVerified && <VerifiedBadge size={14} />}
@@ -339,6 +339,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
             <Text
               className="text-xs text-slate-400 mt-0.5"
               numberOfLines={1}
+              style={rtlText}
             >
               {post.author.company}
             </Text>
@@ -404,7 +405,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
 
         {(hasImage || (!hasImage && !hasGradient)) && (
           <View className="px-4 py-3">
-            <Text className="text-sm text-slate-800 leading-6 w-full">
+            <Text className="text-sm text-slate-800 leading-6 w-full" style={rtlText}>
               {hasImage && <Text className="font-heebo-bold text-slate-900">{authorName} </Text>}
               {post.content}
             </Text>
@@ -539,12 +540,13 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                               <Text
                                 className="text-xs font-heebo-bold text-slate-900"
                                 numberOfLines={1}
+                                style={rtlText}
                               >
                                 {cName}
                               </Text>
                               {c.author.isVerified && <VerifiedBadge size={12} />}
                             </View>
-                            <Text className="text-sm text-slate-700 leading-5 w-full">
+                            <Text className="text-sm text-slate-700 leading-5 w-full" style={rtlText}>
                               {c.content}
                             </Text>
                           </View>
@@ -635,6 +637,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                   fontFamily: "Heebo_700Bold",
                   fontSize: 18,
                   color: "#0f172a",
+                  ...rtlText,
                 }}
               >
                 מחיקת פוסט
@@ -646,6 +649,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                   color: "#475569",
                   marginTop: 8,
                   lineHeight: 20,
+                  ...rtlText,
                 }}
               >
                 בטוח שברצונך למחוק את הפוסט?

@@ -22,7 +22,7 @@ import { useRouter } from "expo-router";
 import { Avatar } from "../ui/Avatar";
 import { POST_BACKGROUNDS, getPostBackground, EMOJI_POSITIONS } from "../../lib/postBackgrounds";
 import { api, apiUploadWithProgress } from "../../lib/api";
-import { hebrewTextInput } from "../../lib/hebrewInputStyle";
+import { hebrewTextInput, rtlText } from "../../lib/hebrewInputStyle";
 import { rowRtl, rtlRowStyle, horizontalRowDirection } from "../../lib/rowRtl";
 import { useAuthStore } from "../../lib/auth";
 import type { PostData, PostAuthor, PostPublishEvent } from "../../lib/types";
@@ -236,6 +236,7 @@ export function CreatePostForm({
               fontFamily: "Heebo_700Bold",
               fontSize: 17,
               color: "#0f172a",
+              ...rtlText,
             }}
           >
             יצירת פוסט
@@ -282,6 +283,7 @@ export function CreatePostForm({
               fontFamily: "Heebo_700Bold",
               fontSize: 15,
               color: "#0f172a",
+              ...rtlText,
             }}
             numberOfLines={1}
           >
@@ -493,7 +495,7 @@ export function CreatePostForm({
       activeOpacity={0.7}
     >
       <Avatar src={user.avatarUrl} name={fullName} size={36} />
-      <Text className="flex-1 text-sm text-slate-400">
+      <Text className="flex-1 text-sm text-slate-400" style={rtlText}>
         מה חדש אצלך?
       </Text>
       <Ionicons name="add" size={22} color="#10b981" />

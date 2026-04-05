@@ -131,7 +131,7 @@ export default function SettingsScreen() {
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className="px-4 py-3 border-b border-slate-100 w-full">
-        <Text className="text-lg font-heebo-bold text-slate-900">
+        <Text className="text-lg font-heebo-bold text-slate-900" style={{ textAlign: "left" }}>
           הגדרות
         </Text>
       </View>
@@ -182,13 +182,14 @@ export default function SettingsScreen() {
 
         {/* Bio & Info */}
         <View className="px-4 py-4 gap-4">
-          <Text className="text-sm font-heebo-bold text-slate-700">
+          <Text className="text-sm font-heebo-bold text-slate-700" style={{ textAlign: "left" }}>
             פרטים אישיים
           </Text>
 
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
+              style={{ textAlign: "left" }}
             >
               ביו
             </Text>
@@ -206,6 +207,7 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
+              style={{ textAlign: "left" }}
             >
               מקצוע
             </Text>
@@ -222,6 +224,7 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
+              style={{ textAlign: "left" }}
             >
               מקום עבודה
             </Text>
@@ -238,6 +241,7 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
+              style={{ textAlign: "left" }}
             >
               תחביבים
             </Text>
@@ -254,6 +258,7 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-2"
+              style={{ textAlign: "left" }}
             >
               סטטוס זוגי
             </Text>
@@ -286,6 +291,7 @@ export default function SettingsScreen() {
             >
               <Text
                 className="text-xs text-slate-500 font-heebo-medium"
+                style={{ textAlign: "left" }}
               >
                 נקה בחירה (ללא סטטוס)
               </Text>
@@ -311,7 +317,7 @@ export default function SettingsScreen() {
 
         {/* Privacy — מפסק משמאל, טקסט מימין (לא תלוי ב-direction בלבד) */}
         <View className="px-4 py-4 gap-3 border-t border-slate-100">
-          <Text className="text-sm font-heebo-bold text-slate-700">
+          <Text className="text-sm font-heebo-bold text-slate-700" style={{ textAlign: "left" }}>
             פרטיות
           </Text>
 
@@ -319,6 +325,7 @@ export default function SettingsScreen() {
             <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
+                style={{ textAlign: "left" }}
               >
                 הסתר מספר טלפון
               </Text>
@@ -333,6 +340,7 @@ export default function SettingsScreen() {
             <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
+                style={{ textAlign: "left" }}
               >
                 הסתר וואטסאפ
               </Text>
@@ -347,6 +355,7 @@ export default function SettingsScreen() {
             <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
+                style={{ textAlign: "left" }}
               >
                 הסתר מחיפוש
               </Text>
@@ -379,7 +388,7 @@ export default function SettingsScreen() {
 
         {/* Version */}
         <Text className="text-xs text-slate-300 text-center pb-4">
-          גרסה 1.13
+          גרסה 1.14
         </Text>
       </ScrollView>
     </SafeAreaView>

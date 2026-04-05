@@ -49,7 +49,7 @@ function SuggestedSlider({ users: initialUsers }: { users: SuggestedUser[] }) {
   return (
     <View className="bg-white rounded-xl border border-slate-200 overflow-hidden" style={{ elevation: 1 }}>
       <View className={`${rowRtl()} items-center justify-between px-4 pt-3 pb-1`}>
-        <Text className="text-sm font-heebo-bold text-slate-700">חברים מוצעים</Text>
+        <Text className="text-sm font-heebo-bold text-slate-700" style={{ textAlign: "left" }}>חברים מוצעים</Text>
         <TouchableOpacity onPress={() => router.push("/(tabs)/explore")}>
           <Text className="text-xs text-emerald-500 font-heebo-medium">הצג הכל</Text>
         </TouchableOpacity>

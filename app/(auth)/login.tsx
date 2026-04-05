@@ -104,7 +104,7 @@ export default function LoginScreen() {
           {/* Form */}
           <View className="gap-4">
             <View>
-              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5">טלפון</Text>
+              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5" style={{ textAlign: "left" }}>טלפון</Text>
               <TextInput
                 value={phone}
                 onChangeText={setPhone}
@@ -117,7 +117,7 @@ export default function LoginScreen() {
             </View>
 
             <View>
-              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5">סיסמה</Text>
+              <Text className="text-sm font-heebo-medium text-slate-700 mb-1.5" style={{ textAlign: "left" }}>סיסמה</Text>
               <View className="relative">
                 <TextInput
                   value={password}
@@ -141,7 +141,7 @@ export default function LoginScreen() {
 
             {error ? (
               <View className="bg-red-50 rounded-xl px-4 py-3">
-                <Text className="text-sm text-red-600">{error}</Text>
+                <Text className="text-sm text-red-600" style={{ textAlign: "left" }}>{error}</Text>
               </View>
             ) : null}
 
