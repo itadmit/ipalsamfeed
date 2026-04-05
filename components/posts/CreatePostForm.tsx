@@ -339,6 +339,7 @@ export function CreatePostForm({
                 placeholder="על מה תרצו לכתוב?"
                 placeholderTextColor="#94a3b8"
                 multiline
+                className="text-right"
                 style={[
                   hebrewTextInput,
                   {
@@ -360,6 +361,7 @@ export function CreatePostForm({
                 placeholder="הוסיפו כיתוב..."
                 placeholderTextColor="#94a3b8"
                 multiline
+                className="text-right"
                 style={[
                   hebrewTextInput,
                   {

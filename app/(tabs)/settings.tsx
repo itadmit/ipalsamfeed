@@ -199,7 +199,7 @@ export default function SettingsScreen() {
               placeholder="ספר/י משהו על עצמך..."
               placeholderTextColor="#94a3b8"
               multiline
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 min-h-[80px] text-left"
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 min-h-[80px] text-right"
               style={[hebrewTextInput, { textAlignVertical: "top" }]}
             />
           </View>
@@ -216,7 +216,7 @@ export default function SettingsScreen() {
               onChangeText={setOccupation}
               placeholder="מה אתה עושה?"
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 text-left"
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 text-right"
               style={hebrewTextInput}
             />
           </View>
@@ -233,7 +233,7 @@ export default function SettingsScreen() {
               onChangeText={setWorkplace}
               placeholder="היכן אתה עובד?"
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 text-left"
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 text-right"
               style={hebrewTextInput}
             />
           </View>
@@ -250,7 +250,7 @@ export default function SettingsScreen() {
               onChangeText={setHobbies}
               placeholder="תחביבים..."
               placeholderTextColor="#94a3b8"
-              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 text-left"
+              className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-slate-900 border border-slate-200 text-right"
               style={hebrewTextInput}
             />
           </View>
@@ -388,7 +388,7 @@ export default function SettingsScreen() {
 
         {/* Version */}
         <Text className="text-xs text-slate-300 text-center pb-4">
-          גרסה 1.15
+          גרסה 1.16
         </Text>
       </ScrollView>
     </SafeAreaView>

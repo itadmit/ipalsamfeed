@@ -125,7 +125,7 @@ export default function LoginScreen() {
                   placeholder="הקלד סיסמה"
                   placeholderTextColor="#94a3b8"
                   secureTextEntry={!showPassword}
-                  className="bg-slate-50 rounded-xl px-4 py-3.5 text-base text-slate-900 border border-slate-200 pe-12"
+                  className="bg-slate-50 rounded-xl px-4 py-3.5 text-base text-slate-900 border border-slate-200 pe-12 text-right"
                   style={hebrewTextInput}
                   onSubmitEditing={handleLogin}
                   returnKeyType="go"

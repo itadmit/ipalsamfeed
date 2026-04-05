@@ -34,13 +34,14 @@ import { rtlText } from "../../lib/hebrewInputStyle";
 <Text className="text-sm text-slate-700" style={rtlText}>שלום</Text>
 ```
 
-For TextInput elements, use `hebrewTextInput` AND add `text-left` class:
+For TextInput elements, use `hebrewTextInput` AND add `text-right` class.
+**TextInput does NOT flip textAlign** (unlike Text), so use `"right"` directly:
 
 ```tsx
 import { hebrewTextInput } from "../../lib/hebrewInputStyle";
 
 <TextInput
-  className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-left"
+  className="bg-slate-50 rounded-xl px-4 py-3 text-sm text-right"
   style={hebrewTextInput}
   placeholder="טקסט..."
 />

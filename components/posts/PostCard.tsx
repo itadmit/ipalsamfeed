@@ -582,7 +582,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                     onChangeText={setCommentText}
                     placeholder="הוסף תגובה..."
                     placeholderTextColor="#94a3b8"
-                    className="flex-1 bg-slate-50 rounded-full px-4 py-2.5 text-sm text-slate-900 min-h-[44px]"
+                    className="flex-1 bg-slate-50 rounded-full px-4 py-2.5 text-sm text-slate-900 min-h-[44px] text-right"
                     style={hebrewTextInput}
                     onSubmitEditing={handleAddComment}
                     returnKeyType="send"

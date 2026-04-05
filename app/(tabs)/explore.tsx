@@ -117,7 +117,7 @@ export default function ExploreScreen() {
             onChangeText={setQuery}
             placeholder="חפש לפי שם, דרגה, פלוגה..."
             placeholderTextColor="#94a3b8"
-            className="bg-slate-100 rounded-lg h-10 ps-10 pe-10 text-sm text-slate-900"
+            className="bg-slate-100 rounded-lg h-10 ps-10 pe-10 text-sm text-slate-900 text-right"
             style={hebrewTextInput}
           />
           {query.length > 0 && (
