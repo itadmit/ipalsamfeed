@@ -106,7 +106,7 @@ export default function RootLayout() {
   }
 
   return (
-    <View style={{ flex: 1, direction: "rtl" }}>
+    <View style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(auth)" />

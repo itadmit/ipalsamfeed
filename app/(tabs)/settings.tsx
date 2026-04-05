@@ -400,11 +400,41 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* RTL Debug */}
+        <View style={{ padding: 16, gap: 8, backgroundColor: "#fef3c7", margin: 16, borderRadius: 12 }}>
+          <Text style={{ fontSize: 14, fontWeight: "bold", color: "#92400e" }}>RTL Debug v1.12:</Text>
+
+          <View style={{ backgroundColor: "#fee2e2", padding: 8, width: "100%", borderRadius: 6 }}>
+            <Text style={{ textAlign: "right", color: "#991b1b", fontSize: 13 }}>
+              A) inline textAlign right: שלום
+            </Text>
+          </View>
+
+          <View style={{ backgroundColor: "#dbeafe", padding: 8, width: "100%", borderRadius: 6 }}>
+            <Text className="text-right" style={{ color: "#1e40af", fontSize: 13 }}>
+              B) NativeWind text-right: שלום
+            </Text>
+          </View>
+
+          <View style={{ backgroundColor: "#dcfce7", padding: 8, width: "100%", borderRadius: 6, direction: "rtl" }}>
+            <Text style={{ color: "#166534", fontSize: 13 }}>
+              C) direction rtl parent: שלום
+            </Text>
+          </View>
+
+          <Text style={{ fontSize: 12, fontWeight: "bold", color: "#92400e", marginTop: 4 }}>
+            Row test (1 should be on RIGHT if RTL):
+          </Text>
+          <View style={{ backgroundColor: "#f3e8ff", padding: 8, width: "100%", borderRadius: 6, flexDirection: "row", gap: 8 }}>
+            <Text style={{ color: "#6b21a8", fontSize: 13 }}>1-ראשון</Text>
+            <Text style={{ color: "#6b21a8", fontSize: 13 }}>2-שני</Text>
+            <Text style={{ color: "#6b21a8", fontSize: 13 }}>3-שלישי</Text>
+          </View>
+        </View>
+
         {/* Version */}
-        <Text
-          className="text-xs text-slate-300 text-center pb-4"
-        >
-          גרסה 1.11 | RTL: {String(I18nManager.isRTL)}
+        <Text className="text-xs text-slate-300 text-center pb-4">
+          גרסה 1.12 | RTL: {String(I18nManager.isRTL)}
         </Text>
       </ScrollView>
     </SafeAreaView>
