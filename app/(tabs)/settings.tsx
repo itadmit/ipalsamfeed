@@ -404,7 +404,7 @@ export default function SettingsScreen() {
         <Text
           className="text-xs text-slate-300 text-center pb-4"
         >
-          גרסה 1.10 | RTL: {String(I18nManager.isRTL)}
+          גרסה 1.11 | RTL: {String(I18nManager.isRTL)}
         </Text>
       </ScrollView>
     </SafeAreaView>

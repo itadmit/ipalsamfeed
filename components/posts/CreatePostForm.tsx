@@ -232,11 +232,11 @@ export function CreatePostForm({
           </TouchableOpacity>
 
           <Text
+            className="text-right"
             style={{
               fontFamily: "Heebo_700Bold",
               fontSize: 17,
               color: "#0f172a",
-              writingDirection: "rtl",
             }}
           >
             יצירת פוסט
@@ -255,11 +255,11 @@ export function CreatePostForm({
             activeOpacity={0.85}
           >
             <Text
+              className="text-right"
               style={{
                 fontFamily: "Heebo_700Bold",
                 fontSize: 14,
                 color: canSubmit ? "#fff" : "#94a3b8",
-                writingDirection: "rtl",
               }}
             >
               פרסום
@@ -280,12 +280,11 @@ export function CreatePostForm({
         >
           <Avatar src={user.avatarUrl} name={fullName} size={40} />
           <Text
+            className="text-right"
             style={{
               fontFamily: "Heebo_700Bold",
               fontSize: 15,
               color: "#0f172a",
-              writingDirection: "rtl",
-              textAlign: "right",
             }}
             numberOfLines={1}
           >
@@ -406,7 +405,7 @@ export function CreatePostForm({
               }}
             >
               <Ionicons name="image-outline" size={20} color="#059669" />
-              <Text style={{ fontFamily: "Heebo_500Medium", fontSize: 12, color: "#475569", writingDirection: "rtl" }}>
+              <Text style={{ fontFamily: "Heebo_500Medium", fontSize: 12, color: "#475569" }}>
                 תמונה
               </Text>
             </TouchableOpacity>
@@ -434,7 +433,6 @@ export function CreatePostForm({
                   fontFamily: "Heebo_500Medium",
                   fontSize: 12,
                   color: imageUri ? "#94a3b8" : "#475569",
-                  writingDirection: "rtl",
                 }}
               >
                 רקע
@@ -498,10 +496,7 @@ export function CreatePostForm({
       activeOpacity={0.7}
     >
       <Avatar src={user.avatarUrl} name={fullName} size={36} />
-      <Text
-        className="flex-1 text-sm text-slate-400"
-        style={{ writingDirection: "rtl", textAlign: "right" }}
-      >
+      <Text className="flex-1 text-sm text-slate-400 text-right">
         מה חדש אצלך?
       </Text>
       <Ionicons name="add" size={22} color="#10b981" />
