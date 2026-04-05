@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import {
-  View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Switch, I18nManager,
+  View, Text, TextInput, TouchableOpacity, ScrollView, ActivityIndicator, Alert, Switch,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -131,10 +131,7 @@ export default function SettingsScreen() {
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className="px-4 py-3 border-b border-slate-100 w-full">
-        <Text
-          className="text-lg font-heebo-bold text-slate-900"
-          style={{ writingDirection: "rtl", textAlign: "right" }}
-        >
+        <Text className="text-lg font-heebo-bold text-slate-900">
           הגדרות
         </Text>
       </View>
@@ -161,13 +158,10 @@ export default function SettingsScreen() {
               </View>
             )}
           </TouchableOpacity>
-          <Text
-            className="text-base font-heebo-bold text-slate-900 mt-2 text-center w-full"
-            style={{ writingDirection: "rtl" }}
-          >
+          <Text className="text-base font-heebo-bold text-slate-900 mt-2 text-center w-full">
             {fullName}
           </Text>
-          <Text className="text-sm text-slate-400 text-center w-full" style={{ writingDirection: "rtl" }}>
+          <Text className="text-sm text-slate-400 text-center w-full">
             {user.phone}
           </Text>
 
@@ -188,17 +182,13 @@ export default function SettingsScreen() {
 
         {/* Bio & Info */}
         <View className="px-4 py-4 gap-4">
-          <Text
-            className="text-sm font-heebo-bold text-slate-700"
-            style={{ writingDirection: "rtl", textAlign: "right" }}
-          >
+          <Text className="text-sm font-heebo-bold text-slate-700">
             פרטים אישיים
           </Text>
 
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               ביו
             </Text>
@@ -216,7 +206,6 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               מקצוע
             </Text>
@@ -233,7 +222,6 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               מקום עבודה
             </Text>
@@ -250,7 +238,6 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-1"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               תחביבים
             </Text>
@@ -267,7 +254,6 @@ export default function SettingsScreen() {
           <View>
             <Text
               className="text-xs text-slate-500 mb-2"
-              style={{ writingDirection: "rtl", textAlign: "right" }}
             >
               סטטוס זוגי
             </Text>
@@ -285,7 +271,7 @@ export default function SettingsScreen() {
                   >
                     <Text
                       className={`text-sm font-heebo-medium ${selected ? "text-emerald-800" : "text-slate-700"}`}
-                      style={{ writingDirection: "rtl", textAlign: "center" }}
+                      
                     >
                       {opt}
                     </Text>
@@ -300,7 +286,6 @@ export default function SettingsScreen() {
             >
               <Text
                 className="text-xs text-slate-500 font-heebo-medium"
-                style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 נקה בחירה (ללא סטטוס)
               </Text>
@@ -317,7 +302,6 @@ export default function SettingsScreen() {
             ) : (
               <Text
                 className="text-white text-sm font-heebo-bold"
-                style={{ writingDirection: "rtl", textAlign: "center" }}
               >
                 שמור שינויים
               </Text>
@@ -327,10 +311,7 @@ export default function SettingsScreen() {
 
         {/* Privacy — מפסק משמאל, טקסט מימין (לא תלוי ב-direction בלבד) */}
         <View className="px-4 py-4 gap-3 border-t border-slate-100">
-          <Text
-            className="text-sm font-heebo-bold text-slate-700"
-            style={{ writingDirection: "rtl", textAlign: "right" }}
-          >
+          <Text className="text-sm font-heebo-bold text-slate-700">
             פרטיות
           </Text>
 
@@ -338,7 +319,6 @@ export default function SettingsScreen() {
             <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
-                style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 הסתר מספר טלפון
               </Text>
@@ -353,7 +333,6 @@ export default function SettingsScreen() {
             <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
-                style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 הסתר וואטסאפ
               </Text>
@@ -368,7 +347,6 @@ export default function SettingsScreen() {
             <View style={{ flexDirection: rtlRowStyle(), alignItems: "center", gap: 12, paddingVertical: 8 }}>
               <Text
                 className="text-sm text-slate-600 flex-1"
-                style={{ writingDirection: "rtl", textAlign: "right" }}
               >
                 הסתר מחיפוש
               </Text>
@@ -392,7 +370,6 @@ export default function SettingsScreen() {
               <Ionicons name="log-out-outline" size={18} color="#ef4444" />
               <Text
                 className="text-red-600 text-sm font-heebo-bold"
-                style={{ writingDirection: "rtl", textAlign: "center" }}
               >
                 התנתק
               </Text>
@@ -400,41 +377,9 @@ export default function SettingsScreen() {
           </TouchableOpacity>
         </View>
 
-        {/* RTL Debug */}
-        <View style={{ padding: 16, gap: 8, backgroundColor: "#fef3c7", margin: 16, borderRadius: 12 }}>
-          <Text style={{ fontSize: 14, fontWeight: "bold", color: "#92400e" }}>RTL Debug v1.12:</Text>
-
-          <View style={{ backgroundColor: "#fee2e2", padding: 8, width: "100%", borderRadius: 6 }}>
-            <Text style={{ textAlign: "right", color: "#991b1b", fontSize: 13 }}>
-              A) inline textAlign right: שלום
-            </Text>
-          </View>
-
-          <View style={{ backgroundColor: "#dbeafe", padding: 8, width: "100%", borderRadius: 6 }}>
-            <Text className="text-right" style={{ color: "#1e40af", fontSize: 13 }}>
-              B) NativeWind text-right: שלום
-            </Text>
-          </View>
-
-          <View style={{ backgroundColor: "#dcfce7", padding: 8, width: "100%", borderRadius: 6, direction: "rtl" }}>
-            <Text style={{ color: "#166534", fontSize: 13 }}>
-              C) direction rtl parent: שלום
-            </Text>
-          </View>
-
-          <Text style={{ fontSize: 12, fontWeight: "bold", color: "#92400e", marginTop: 4 }}>
-            Row test (1 should be on RIGHT if RTL):
-          </Text>
-          <View style={{ backgroundColor: "#f3e8ff", padding: 8, width: "100%", borderRadius: 6, flexDirection: "row", gap: 8 }}>
-            <Text style={{ color: "#6b21a8", fontSize: 13 }}>1-ראשון</Text>
-            <Text style={{ color: "#6b21a8", fontSize: 13 }}>2-שני</Text>
-            <Text style={{ color: "#6b21a8", fontSize: 13 }}>3-שלישי</Text>
-          </View>
-        </View>
-
         {/* Version */}
         <Text className="text-xs text-slate-300 text-center pb-4">
-          גרסה 1.12 | RTL: {String(I18nManager.isRTL)}
+          גרסה 1.13
         </Text>
       </ScrollView>
     </SafeAreaView>

@@ -55,7 +55,6 @@ export function AppSplash({ updateStatus, progress = 0 }: AppSplashProps = {}) {
             color: "rgba(255,255,255,0.5)",
             marginTop: 8,
             textAlign: "center",
-            writingDirection: "rtl",
           }}
         >
           רשת חברתית גדודית
@@ -68,7 +67,6 @@ export function AppSplash({ updateStatus, progress = 0 }: AppSplashProps = {}) {
                 fontSize: 14,
                 color: "rgba(94, 234, 212, 0.7)",
                 textAlign: "center",
-                writingDirection: "rtl",
                 marginBottom: 12,
               }}
             >

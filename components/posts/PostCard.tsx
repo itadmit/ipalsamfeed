@@ -330,14 +330,14 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
         <Avatar src={post.author.avatarUrl} name={authorName} size={36} />
         <View className="flex-1 min-w-0 self-stretch" style={{ alignItems: "flex-start" }}>
           <View className={`${rowRtl()} items-center gap-1`}>
-            <Text className="font-heebo-bold text-sm text-slate-900 text-right">
+            <Text className="font-heebo-bold text-sm text-slate-900">
               {authorName}
             </Text>
             {post.author.isVerified && <VerifiedBadge size={14} />}
           </View>
           {post.author.company && (
             <Text
-              className="text-xs text-slate-400 mt-0.5 text-right"
+              className="text-xs text-slate-400 mt-0.5"
               numberOfLines={1}
             >
               {post.author.company}
@@ -404,7 +404,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
 
         {(hasImage || (!hasImage && !hasGradient)) && (
           <View className="px-4 py-3">
-            <Text className="text-sm text-slate-800 leading-6 text-right w-full">
+            <Text className="text-sm text-slate-800 leading-6 w-full">
               {hasImage && <Text className="font-heebo-bold text-slate-900">{authorName} </Text>}
               {post.content}
             </Text>
@@ -506,11 +506,11 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                   className="py-2 px-1 min-w-[56px]"
                   hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
                 >
-                  <Text className="text-emerald-600 font-heebo-bold text-sm" style={{ writingDirection: "rtl" }}>
+                  <Text className="text-emerald-600 font-heebo-bold text-sm">
                     סגור
                   </Text>
                 </TouchableOpacity>
-                <Text className="text-base font-heebo-bold text-slate-900" style={{ writingDirection: "rtl" }}>
+                <Text className="text-base font-heebo-bold text-slate-900">
                   תגובות{commentsCount > 0 ? ` · ${commentsCount}` : ""}
                 </Text>
                 <View className="min-w-[56px]" />
@@ -537,14 +537,14 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                           <View className="bg-slate-50 rounded-2xl px-3.5 py-2.5">
                             <View className={`${rowRtl()} items-center gap-1.5 mb-1`}>
                               <Text
-                                className="text-xs font-heebo-bold text-slate-900 text-right"
+                                className="text-xs font-heebo-bold text-slate-900"
                                 numberOfLines={1}
                               >
                                 {cName}
                               </Text>
                               {c.author.isVerified && <VerifiedBadge size={12} />}
                             </View>
-                            <Text className="text-sm text-slate-700 leading-5 text-right w-full">
+                            <Text className="text-sm text-slate-700 leading-5 w-full">
                               {c.content}
                             </Text>
                           </View>
@@ -635,8 +635,6 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                   fontFamily: "Heebo_700Bold",
                   fontSize: 18,
                   color: "#0f172a",
-                  textAlign: "right",
-                  writingDirection: "rtl",
                 }}
               >
                 מחיקת פוסט
@@ -648,8 +646,6 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                   color: "#475569",
                   marginTop: 8,
                   lineHeight: 20,
-                  textAlign: "right",
-                  writingDirection: "rtl",
                 }}
               >
                 בטוח שברצונך למחוק את הפוסט?
@@ -678,7 +674,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                 accessibilityRole="button"
                 accessibilityLabel="ביטול"
               >
-                <Text style={{ fontFamily: "Heebo_700Bold", color: "#334155", writingDirection: "rtl" }}>
+                <Text style={{ fontFamily: "Heebo_700Bold", color: "#334155" }}>
                   ביטול
                 </Text>
               </TouchableOpacity>
@@ -695,7 +691,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
                 accessibilityRole="button"
                 accessibilityLabel="מחק פוסט"
               >
-                <Text style={{ fontFamily: "Heebo_700Bold", color: "#fff", writingDirection: "rtl" }}>
+                <Text style={{ fontFamily: "Heebo_700Bold", color: "#fff" }}>
                   מחק
                 </Text>
               </TouchableOpacity>

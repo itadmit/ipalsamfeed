@@ -70,7 +70,6 @@ function ComposeTabBarButton(props: BottomTabBarButtonProps) {
                 paddingTop:4,
                 paddingBottom: 4,
                 color: "rgba(255,255,255,0.95)",
-                writingDirection: "rtl",
                 textAlign: "center",
               }}
               numberOfLines={1}
@@ -128,7 +127,6 @@ export default function TabLayout() {
         tabBarLabelStyle: {
           fontFamily: "Heebo",
           fontSize: 10,
-          writingDirection: "rtl",
         },
       }}
     >

@@ -232,7 +232,6 @@ export function CreatePostForm({
           </TouchableOpacity>
 
           <Text
-            className="text-right"
             style={{
               fontFamily: "Heebo_700Bold",
               fontSize: 17,
@@ -255,7 +254,6 @@ export function CreatePostForm({
             activeOpacity={0.85}
           >
             <Text
-              className="text-right"
               style={{
                 fontFamily: "Heebo_700Bold",
                 fontSize: 14,
@@ -280,7 +278,6 @@ export function CreatePostForm({
         >
           <Avatar src={user.avatarUrl} name={fullName} size={40} />
           <Text
-            className="text-right"
             style={{
               fontFamily: "Heebo_700Bold",
               fontSize: 15,
@@ -496,7 +493,7 @@ export function CreatePostForm({
       activeOpacity={0.7}
     >
       <Avatar src={user.avatarUrl} name={fullName} size={36} />
-      <Text className="flex-1 text-sm text-slate-400 text-right">
+      <Text className="flex-1 text-sm text-slate-400">
         מה חדש אצלך?
       </Text>
       <Ionicons name="add" size={22} color="#10b981" />

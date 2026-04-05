@@ -183,18 +183,18 @@ export function ProfileHeader({
         {/* Name + verified */}
         <View style={{ marginTop: 16 }}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-            <Text className="text-xl font-heebo-bold text-slate-900 text-right">
+            <Text className="text-xl font-heebo-bold text-slate-900">
               {fullName}
             </Text>
             {profile.isVerified && <VerifiedBadge size={20} />}
           </View>
           {profile.rank ? (
-            <Text className="text-sm text-slate-500 mt-1 leading-5 text-right w-full">
+            <Text className="text-sm text-slate-500 mt-1 leading-5 w-full">
               {profile.rank}
             </Text>
           ) : null}
           {profile.bio ? (
-            <Text className="text-[15px] text-slate-700 mt-2.5 leading-6 text-right w-full">
+            <Text className="text-[15px] text-slate-700 mt-2.5 leading-6 w-full">
               {profile.bio}
             </Text>
           ) : null}
@@ -227,7 +227,7 @@ export function ProfileHeader({
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="briefcase-outline" size={18} color="#64748b" />
                 </View>
-                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5 text-right">
+                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5">
                   {profile.occupation}
                 </Text>
               </View>
@@ -237,7 +237,7 @@ export function ProfileHeader({
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="business-outline" size={18} color="#64748b" />
                 </View>
-                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5 text-right">
+                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5">
                   {profile.workplace}
                 </Text>
               </View>
@@ -247,7 +247,7 @@ export function ProfileHeader({
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="heart-outline" size={18} color="#64748b" />
                 </View>
-                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5 text-right">
+                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5">
                   {profile.hobbies}
                 </Text>
               </View>
@@ -257,7 +257,7 @@ export function ProfileHeader({
                 <View className="w-9 h-9 rounded-full bg-slate-100 items-center justify-center">
                   <Ionicons name="people-outline" size={18} color="#64748b" />
                 </View>
-                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5 text-right">
+                <Text className="text-sm text-slate-700 flex-1 pt-1.5 leading-5">
                   {relationshipStatusDisplay(profile.relationshipStatus)}
                 </Text>
               </View>

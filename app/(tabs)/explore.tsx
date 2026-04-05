@@ -101,10 +101,7 @@ export default function ExploreScreen() {
     <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className="bg-white border-b border-slate-200 px-4 py-3">
-        <Text
-          className="text-lg font-heebo-bold text-slate-900"
-          style={{ writingDirection: "rtl", textAlign: "right" }}
-        >
+        <Text className="text-lg font-heebo-bold text-slate-900">
           גלה
         </Text>
       </View>
