@@ -168,7 +168,7 @@ export default function FeedScreen() {
   );
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50" edges={["top"]} style={{ direction: "rtl" }}>
+    <SafeAreaView className="flex-1 bg-slate-50" edges={["top"]}>
       {/* Header */}
       <View className={`bg-white border-b border-slate-200 px-4 py-3 ${rowRtl()} items-center justify-between`}>
         <Text

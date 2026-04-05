@@ -210,7 +210,7 @@ export function CreatePostForm({
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       keyboardVerticalOffset={keyboardVerticalOffset}
     >
-      <View style={{ flex: 1, backgroundColor: "#fff", direction: "rtl" }}>
+      <View style={{ flex: 1, backgroundColor: "#fff" }}>
         {/* Header: X (right) | title (center) | Post button (left) */}
         <View
           style={{
@@ -493,8 +493,8 @@ export function CreatePostForm({
   return (
     <TouchableOpacity
       onPress={() => router.push("/(tabs)/compose")}
-      className={`bg-white rounded-xl border border-slate-200 p-4 ${rowRtl()} items-center gap-3`}
-      style={{ elevation: 1, direction: "rtl" }}
+      className="bg-white rounded-xl border border-slate-200 p-4 items-center gap-3"
+      style={{ elevation: 1, flexDirection: "row" }}
       activeOpacity={0.7}
     >
       <Avatar src={user.avatarUrl} name={fullName} size={36} />

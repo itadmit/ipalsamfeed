@@ -54,7 +54,7 @@ export default function MyProfileScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       <FlatList
         data={data.posts}
         keyExtractor={(item) => item.id}

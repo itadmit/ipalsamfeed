@@ -1,10 +1,9 @@
 import { I18nManager, Platform } from "react-native";
 
 /**
- * RTL approach: every component/screen root sets `style={{ direction: "rtl" }}`.
- * This guarantees RTL layout regardless of I18nManager.isRTL native state
- * (which only takes effect after a full app restart).
- * With `direction: "rtl"`, plain `flex-row` renders first child on the RIGHT.
+ * RTL: root layout uses `I18nManager.forceRTL(true)` — avoid `direction: "rtl"` on
+ * screens/containers (double flip). Plain `flex-row` already places first child on the right.
+ * Tab bar order still uses `tabBarLayoutStyle()` with explicit `direction: "rtl"`.
  */
 
 /** Tailwind class for horizontal RTL row */

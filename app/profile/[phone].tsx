@@ -63,7 +63,7 @@ export default function PublicProfileScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Back — ימין המסך, מעט מתחת ל-safe area */}
       <View className="absolute top-16 right-4 z-10">
         <TouchableOpacity

@@ -1,6 +1,6 @@
 import "../global.css";
 import { useEffect, useRef, useState, useCallback } from "react";
-import { I18nManager, Platform, View } from "react-native";
+import { I18nManager, View } from "react-native";
 import { Stack, SplashScreen } from "expo-router";
 import { isRunningInExpoGo } from "expo";
 import { StatusBar } from "expo-status-bar";
@@ -105,13 +105,8 @@ export default function RootLayout() {
     return <AppSplash updateStatus={updateStatus} progress={downloadProgress} />;
   }
 
-  const rootWebRtl =
-    Platform.OS === "web"
-      ? ({ flex: 1, direction: "rtl" as const } as const)
-      : { flex: 1 };
-
   return (
-    <View style={rootWebRtl}>
+    <View style={{ flex: 1 }}>
       <QueryClientProvider client={queryClient}>
         <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="(auth)" />

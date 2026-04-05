@@ -128,7 +128,7 @@ export default function SettingsScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className="px-4 py-3 border-b border-slate-100 w-full">
         <Text
@@ -404,7 +404,7 @@ export default function SettingsScreen() {
         <Text
           className="text-xs text-slate-300 text-center pb-4"
         >
-          גרסה 1.7
+          גרסה 1.9
         </Text>
       </ScrollView>
     </SafeAreaView>

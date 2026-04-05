@@ -306,7 +306,7 @@ export function PostCard({ post, isOwner, sessionUserId, onDelete }: PostCardPro
   }, [showComments, post.id]);
 
   return (
-    <View className="bg-white rounded-xl overflow-hidden border border-slate-200" style={{ elevation: 1, direction: "rtl" }}>
+    <View className="bg-white rounded-xl overflow-hidden border border-slate-200" style={{ elevation: 1 }}>
       {post.isUploading ? (
         <View className="h-[3px] w-full bg-slate-200 overflow-hidden">
           {typeof post.uploadProgress === "number" ? (

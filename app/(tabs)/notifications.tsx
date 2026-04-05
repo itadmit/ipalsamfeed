@@ -153,7 +153,7 @@ export default function NotificationsScreen() {
   }, [router, refetch, queryClient]);
 
   return (
-    <SafeAreaView className="flex-1 bg-white" edges={["top"]} style={{ direction: "rtl" }}>
+    <SafeAreaView className="flex-1 bg-white" edges={["top"]}>
       {/* Header */}
       <View className={`px-4 py-3 ${rowRtl()} items-center justify-between border-b border-slate-100`}>
         <View className={`${rowRtl()} items-center gap-2`}>
